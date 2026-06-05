@@ -62,7 +62,6 @@ interface Project {
 
 ### React 컴포넌트
 - **작성·수정 시 반드시 `react-best-practice` skill을 먼저 실행한다**
-- **커밋 전 반드시 `pre-commit-check` skill을 실행한다**
 - named export (`export function Foo`)
 - 타입은 모두 `src/types/` 에 위치
 - 데이터는 `src/data/*.json`에서 직접 import, Zustand는 UI 상태(필터 탭 등)에만 사용
@@ -82,6 +81,7 @@ interface Project {
 
 ## Git 컨벤션
 
+- **커밋 전 반드시 `pre-commit-check` skill을 실행한다**
 - **커밋·PR 생성 시 반드시 `git-convention` skill을 실행한다**
 - `git`, `gh` 등 모든 CLI 명령은 반드시 **PowerShell 도구**로 실행한다 (Bash에서는 `gh` 못 찾음)
 - `gh` 전체 경로: `& "C:\Program Files\GitHub CLI\gh.exe"`
