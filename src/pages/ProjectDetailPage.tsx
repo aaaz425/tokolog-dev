@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { ArrowLeft } from 'lucide-react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Layout } from '../components/Layout';
 import { TagBadge } from '../components/TagBadge';
@@ -83,7 +84,7 @@ export function ProjectDetailPage() {
         onClick={() => navigate('/projects')}
         className="font-body text-sm text-gray-400 hover:text-black mb-6 flex items-center gap-1 transition-colors cursor-pointer"
       >
-        ← 목록으로
+        <ArrowLeft size={16} strokeWidth={2} /> 목록으로
       </button>
 
       {editing ? (

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { X } from 'lucide-react';
 import { Layout } from '../components/Layout';
 import { ProjectCard } from '../components/ProjectCard';
 import { useProjectStore } from '../store/projectStore';
@@ -116,9 +117,9 @@ export function HomePage() {
               <h2 className="font-heading text-base font-semibold text-black">새 프로젝트</h2>
               <button
                 onClick={() => setShowModal(false)}
-                className="text-gray-400 hover:text-black text-xl leading-none transition-colors cursor-pointer"
+                className="text-gray-400 hover:text-black transition-colors cursor-pointer"
               >
-                ×
+                <X size={18} strokeWidth={2} />
               </button>
             </div>
             <form onSubmit={handleSubmit} className="p-5 space-y-4">

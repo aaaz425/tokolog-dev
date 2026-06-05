@@ -223,7 +223,7 @@ const typeStyles = {
   <div className="bg-white rounded-lg w-full max-w-md shadow-xl">
     <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
       <h2 className="font-heading text-base font-semibold text-black">{title}</h2>
-      <button className="text-gray-400 hover:text-black text-xl transition-colors">×</button>
+      <button className="text-gray-400 hover:text-black transition-colors"><X size={18} strokeWidth={2} /></button>
     </div>
     <div className="p-5">{/* 본문 */}</div>
   </div>
@@ -281,7 +281,27 @@ const typeStyles = {
 
 ---
 
-## 8. Do / Don't
+## 8. Icons
+
+- 아이콘은 **lucide-react**만 사용한다 (`import { IconName } from 'lucide-react'`)
+- 크기: 기본 `size={16}`, 강조 `size={18}`, 대형 `size={20}`
+- stroke: 기본 `strokeWidth={2}`
+- 이모지는 장식 텍스트에만 허용 (UI 액션 아이콘으로는 사용 불가)
+- 텍스트 기호(`×`, `←`, `→` 등)는 사용 금지
+
+### 자주 쓰는 아이콘 매핑
+
+| 용도 | 아이콘 |
+|------|--------|
+| 닫기 / 삭제 | `X` |
+| 뒤로가기 | `ArrowLeft` |
+| 앞으로 / CTA | `ArrowRight` |
+| 추가 | `Plus` |
+| 편집 | `Pencil` |
+
+---
+
+## 9. Do / Don't
 
 **Do**
 - Headline/제목은 항상 `font-heading` (Manrope) 사용
