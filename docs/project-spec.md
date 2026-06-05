@@ -125,45 +125,17 @@
 
 ## 개발 순서
 
-### Phase 1 — Projects 완성 (현재)
+### Phase 1 — Projects
 
-| 순서 | 기능 | 브랜치 |
+#### /projects 페이지 초기 구현
+
+| 순서 | 태스크 | 브랜치 |
 |------|------|--------|
-| 1 | 링크 입력 UI — 모달에 GitHub / 배포 링크 필드 추가 | `feature/project-links` |
-| 2 | 썸네일 이미지 업로드 — 이미지 선택 및 미리보기, base64 저장 | `feature/project-thumbnail` |
-| 3 | 검색 — 제목 기준 실시간 검색 인풋 추가 | `feature/project-search` |
-| 4 | 정렬 — 최신순 / 오래된순 / 이름순 드롭다운 | `feature/project-sort` |
-| 5 | 빈 상태(Empty State) 개선 — 일러스트 또는 안내 문구 + CTA 버튼 | `feature/project-empty-state` |
-
-### Phase 2 — Experience
-
-| 순서 | 기능 | 브랜치 |
-|------|------|--------|
-| 1 | 타입 정의 + 스토어 — Experience 인터페이스, Zustand 스토어, localStorage | `feature/experience-store` |
-| 2 | 경력 타임라인 UI — 회사명, 직책, 기간을 세로 타임라인으로 표시 | `feature/experience-timeline` |
-| 3 | 경력 CRUD — 추가 모달, 편집, 삭제 | `feature/experience-crud` |
-| 4 | 담당 업무 목록 — 경력 상세에 세부 업무 bullet 리스트 | `feature/experience-tasks` |
-| 5 | 재직 중 표시 — endDate 없을 때 "재직 중" 배지 | `feature/experience-current` |
-
-### Phase 3 — Tech Stack
-
-| 순서 | 기능 | 브랜치 |
-|------|------|--------|
-| 1 | 타입 정의 + 스토어 — TechStack 인터페이스, Zustand 스토어, localStorage | `feature/techstack-store` |
-| 2 | 카테고리별 기술 목록 UI — 언어 / 프레임워크 / 도구 / 인프라 섹션 | `feature/techstack-list` |
-| 3 | 기술 CRUD — 추가, 편집, 삭제 | `feature/techstack-crud` |
-| 4 | 숙련도 표시 — 레벨 1~3 시각적 인디케이터 (점 또는 바) | `feature/techstack-level` |
-| 5 | 기술 아이콘 — Simple Icons 또는 이미지 URL 기반 아이콘 | `feature/techstack-icon` |
-
-### Phase 4 — Blog (장기 로드맵)
-
-| 순서 | 기능 | 브랜치 |
-|------|------|--------|
-| 1 | 글 목록 UI — 카드형 목록, 날짜·태그 표시 | `feature/blog-list` |
-| 2 | 마크다운 에디터 — 작성 / 미리보기 | `feature/blog-editor` |
-| 3 | 글 상세 보기 — 마크다운 렌더링 | `feature/blog-detail` |
-| 4 | 태그 분류 — 태그별 필터링 | `feature/blog-tags` |
-| 5 | 공개 / 비공개 설정 | `feature/blog-visibility` |
+| 1 | 목 데이터 파일 생성 — `src/data/projects.ts`에 `mockProjects` 배열 선언 | `feature/projects-page` |
+| 2 | ProjectsPage 생성 — 그리드 레이아웃 뼈대 작성 | `feature/projects-page` |
+| 3 | 카드 렌더링 연결 — `mockProjects.map`으로 `ProjectCard` 출력 | `feature/projects-page` |
+| 4 | 라우트 등록 — `App.tsx`에 `/projects` 경로 추가 | `feature/projects-page` |
+| 5 | 네비게이션 수정 — Layout의 Projects 링크를 `/` → `/projects` 변경 | `feature/projects-page` |
 
 ---
 

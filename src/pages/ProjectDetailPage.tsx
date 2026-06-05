@@ -30,7 +30,7 @@ export function ProjectDetailPage() {
         <div className="text-center py-24 text-gray-400">
           <p className="font-body text-sm">프로젝트를 찾을 수 없어요.</p>
           <button
-            onClick={() => navigate('/')}
+            onClick={() => navigate('/projects')}
             className="mt-4 font-body text-sm text-black hover:underline"
           >
             목록으로
@@ -66,7 +66,7 @@ export function ProjectDetailPage() {
   function handleDelete() {
     if (!confirm('이 프로젝트를 삭제할까요?')) return;
     deleteProject(project!.id);
-    navigate('/');
+    navigate('/projects');
   }
 
   const period = project.endDate
@@ -80,7 +80,7 @@ export function ProjectDetailPage() {
   return (
     <Layout>
       <button
-        onClick={() => navigate('/')}
+        onClick={() => navigate('/projects')}
         className="font-body text-sm text-gray-400 hover:text-black mb-6 flex items-center gap-1 transition-colors cursor-pointer"
       >
         ← 목록으로
