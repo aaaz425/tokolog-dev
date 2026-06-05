@@ -7,7 +7,7 @@ interface LayoutProps {
 }
 
 const NAV_ITEMS = [
-  { label: 'Projects', path: '/' },
+  { label: 'Projects', path: '/projects' },
   { label: 'Experience', path: '/experience' },
   { label: 'Tech Stack', path: '/techstack' },
 ];
