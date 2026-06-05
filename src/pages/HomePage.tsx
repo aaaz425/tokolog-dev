@@ -22,7 +22,7 @@ const TABS: { label: string; value: FilterType }[] = [
 ];
 
 export function HomePage() {
-  const { projects, addProject, fetchProjects } = useProjectStore();
+  const { projects, addProject, fetchProjects, loading } = useProjectStore();
   const [filter, setFilter] = useState<FilterType>('all');
   const [showModal, setShowModal] = useState(false);
   const [form, setForm] = useState(EMPTY_FORM);
@@ -92,7 +92,11 @@ export function HomePage() {
       </div>
 
       {/* 카드 그리드 */}
-      {filtered.length === 0 ? (
+      {loading ? (
+        <div className="text-center py-24 text-gray-400">
+          <p className="font-body text-sm">불러오는 중...</p>
+        </div>
+      ) : filtered.length === 0 ? (
         <div className="text-center py-24 text-gray-400">
           <p className="font-body text-sm">프로젝트가 없어요. 새 프로젝트를 추가해보세요.</p>
         </div>
