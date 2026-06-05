@@ -1,4 +1,4 @@
-# MyStack Design System
+# tokolog Design System
 
 라이트모드 단일 기준. Tailwind CSS 유틸리티 클래스 기반으로 작성한다.  
 시드 컬러 `#121212` 기반의 모노크롬 팔레트 + Manrope / Inter 폰트 조합.

@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import type { Project } from '../types/project';
 
-const STORAGE_KEY = 'mystack_projects';
+const STORAGE_KEY = 'tokolog_projects';
 
 function loadFromStorage(): Project[] {
   try {
