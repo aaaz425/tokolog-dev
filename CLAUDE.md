@@ -106,6 +106,9 @@ main
 5. gh pr merge --squash --delete-branch  # Squash Merge + 브랜치 삭제
 ```
 
+> **도구 선택:** `git`, `gh` 등 모든 CLI 명령은 반드시 **PowerShell 도구**로 실행한다. Bash 도구에서는 `gh`를 찾지 못해 실패한다.
+> **gh 경로:** `gh`가 PATH에 없으므로 전체 경로로 호출한다 → `& "C:\Program Files\GitHub CLI\gh.exe"`
+
 ### PR 규칙
 
 - **제목**: 커밋 메시지와 동일한 형식 (`feat: ...`, `fix: ...`)
