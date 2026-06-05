@@ -24,7 +24,7 @@ export function Layout({ children, onAddProject }: LayoutProps) {
           <div className="w-7 h-7 rounded-md bg-white flex items-center justify-center text-black text-xs font-bold font-heading">
             M
           </div>
-          <span className="font-heading text-white text-base font-bold">MyStack</span>
+          <span className="font-heading text-white text-base font-bold">tokolog</span>
         </div>
         <nav className="flex flex-col gap-1">
           {NAV_ITEMS.map((item) => {
@@ -48,7 +48,7 @@ export function Layout({ children, onAddProject }: LayoutProps) {
 
       {/* 모바일 탑 네브 */}
       <header className="lg:hidden fixed top-0 left-0 right-0 flex items-center justify-between px-4 h-14 bg-white border-b border-gray-200 z-20">
-        <span className="font-heading text-base font-bold text-black">MyStack</span>
+        <span className="font-heading text-base font-bold text-black">tokolog</span>
         <div className="flex items-center gap-4">
           {onAddProject && (
             <button

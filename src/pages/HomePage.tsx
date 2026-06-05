@@ -126,7 +126,7 @@ export function HomePage() {
                   value={form.title}
                   onChange={(e) => setForm({ ...form, title: e.target.value })}
                   className="w-full border border-gray-200 rounded-md px-3 py-2 font-body text-sm text-black placeholder:text-gray-400 focus:outline-none focus:border-black transition-colors"
-                  placeholder="MyStack"
+                  placeholder="tokolog"
                 />
               </div>
               <div>
