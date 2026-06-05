@@ -1,30 +1,16 @@
 {
   "projects": [
     {
-      "id": "1",
-      "title": "사내 일정 관리 플랫폼",
-      "type": "company",
-      "description": "팀 단위 일정 등록, 캘린더 조회, 대시보드를 제공하는 사내 업무 지원 서비스",
-      "techStack": ["React", "TypeScript", "Redux Toolkit", "Tailwind CSS", "MSW"],
-      "startDate": "2024-03",
-      "endDate": "2024-08",
-      "createdAt": "2024-03-01T00:00:00.000Z"
-    },
-    {
-      "id": "2",
-      "title": "tokolog",
-      "type": "personal",
-      "description": "사내·개인 프로젝트, 경력, 기술 스택을 한 곳에서 기록하고 관리하는 포트폴리오 서비스",
-      "techStack": ["React", "TypeScript", "Zustand", "Tailwind CSS"],
-      "startDate": "2025-01",
-      "createdAt": "2025-01-01T00:00:00.000Z"
-    },
-    {
       "id": "3",
       "title": "쇼핑몰 리뉴얼",
       "type": "company",
       "description": "레거시 쇼핑몰의 UI·UX 전면 개편 및 프론트엔드 성능 최적화 프로젝트",
-      "techStack": ["Vue.js", "JavaScript", "SCSS", "Webpack"],
+      "techStack": [
+        "Vue.js",
+        "JavaScript",
+        "SCSS",
+        "Webpack"
+      ],
       "startDate": "2023-06",
       "endDate": "2023-12",
       "createdAt": "2023-06-01T00:00:00.000Z"
@@ -34,7 +20,11 @@
       "title": "날씨 앱",
       "type": "personal",
       "description": "OpenWeather API를 활용한 현재 위치 기반 날씨 정보 조회 앱",
-      "techStack": ["React", "TypeScript", "OpenWeather API"],
+      "techStack": [
+        "React",
+        "TypeScript",
+        "OpenWeather API"
+      ],
       "startDate": "2023-01",
       "endDate": "2023-02",
       "createdAt": "2023-01-01T00:00:00.000Z"
@@ -44,7 +34,13 @@
       "title": "사내 인트라넷 개편",
       "type": "company",
       "description": "노후화된 사내 인트라넷을 Next.js 기반으로 재구축하고 AWS 인프라로 이전",
-      "techStack": ["Next.js", "React", "TypeScript", "AWS", "PostgreSQL"],
+      "techStack": [
+        "Next.js",
+        "React",
+        "TypeScript",
+        "AWS",
+        "PostgreSQL"
+      ],
       "startDate": "2024-09",
       "endDate": "2025-02",
       "createdAt": "2024-09-01T00:00:00.000Z"
@@ -54,10 +50,15 @@
       "title": "포트폴리오 사이트",
       "type": "personal",
       "description": "취업 준비 중 제작한 개인 포트폴리오 정적 웹사이트",
-      "techStack": ["HTML", "CSS", "JavaScript"],
+      "techStack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
       "startDate": "2022-11",
       "endDate": "2022-12",
       "createdAt": "2022-11-01T00:00:00.000Z"
     }
-  ]
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
 }
