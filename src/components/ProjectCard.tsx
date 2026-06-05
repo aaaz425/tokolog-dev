@@ -1,4 +1,6 @@
 import { useNavigate } from 'react-router-dom';
+import { X } from 'lucide-react';
+import { useProjectStore } from '../store/projectStore';
 import type { Project } from '../types/project';
 import { TagBadge } from './TagBadge';
 
@@ -18,21 +20,37 @@ const TYPE_LABELS: Record<string, string> = {
 
 export function ProjectCard({ project }: ProjectCardProps) {
   const navigate = useNavigate();
+  const { deleteProject } = useProjectStore();
 
   const period = project.endDate
     ? `${project.startDate} ~ ${project.endDate}`
     : `${project.startDate} ~ 진행 중`;
 
+  async function handleDelete(e: React.MouseEvent) {
+    e.stopPropagation();
+    if (!confirm('이 프로젝트를 삭제할까요?')) return;
+    await deleteProject(project.id);
+  }
+
   return (
     <div
       onClick={() => navigate(`/projects/${project.id}`)}
-      className="bg-white rounded-lg overflow-hidden border border-gray-200 hover:shadow-md transition-shadow cursor-pointer select-none"
+      className="relative group bg-white rounded-lg overflow-hidden border border-gray-200 hover:shadow-md transition-shadow cursor-pointer select-none"
     >
       {/* 썸네일 플레이스홀더 */}
-      <div className="aspect-video bg-neutral-100 flex items-center justify-center">
+      <div className="aspect-video bg-neutral-100 flex items-center justify-center relative">
         <span className="font-heading text-2xl font-bold text-neutral-300">
           {project.title.charAt(0)}
         </span>
+
+        {/* hover 삭제 버튼 */}
+        <button
+          onClick={handleDelete}
+          className="absolute top-2 right-2 w-7 h-7 flex items-center justify-center rounded-full bg-white/80 border border-gray-200 text-gray-400 hover:text-red-500 hover:border-red-200 hover:bg-red-50 opacity-0 group-hover:opacity-100 transition-all cursor-pointer z-10"
+          aria-label="프로젝트 삭제"
+        >
+          <X size={14} strokeWidth={2} />
+        </button>
       </div>
 
       {/* 콘텐츠 */}
