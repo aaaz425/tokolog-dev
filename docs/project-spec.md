@@ -115,10 +115,10 @@
 |------|------|
 | 프론트엔드 | React + Vite + TypeScript |
 | 스타일링 | Tailwind CSS v4 |
-| 상태관리 | Zustand + localStorage (현재) → Supabase 연동 시 제거 |
-| DB | Supabase (PostgreSQL) |
-| 백엔드 API | Supabase 내장 REST API + supabase-js |
-| 이미지 스토리지 | Supabase Storage |
+| 상태관리 | Zustand (UI 상태) |
+| 데이터 | 정적 JSON 파일 (`src/data/`) |
+| 이미지 | Vercel `public/` 폴더 (WebP 최적화) |
+| 동영상 | Google Drive iframe 임베드 |
 | 호스팅 | Vercel |
 
 ---
@@ -142,6 +142,6 @@
 ## 공통 사항
 
 - **인증 없음** — 개인 서비스로 로그인 불필요
-- **데이터 저장** — localStorage (현재) → 추후 백엔드 연동 고려
+- **데이터 저장** — `src/data/*.json` 정적 파일, 백엔드 없음
 - **반응형** — PC(사이드바 + 3열) / 모바일(탑 네브 + 1열)
 - **디자인** — `docs/design.md` 기준 준수

@@ -1,51 +1,59 @@
 import { create } from 'zustand';
 import type { Project } from '../types/project';
 
-const STORAGE_KEY = 'tokolog_projects';
-
-function loadFromStorage(): Project[] {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    return raw ? JSON.parse(raw) : [];
-  } catch {
-    return [];
-  }
-}
-
-function saveToStorage(projects: Project[]) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(projects));
-}
+const API = 'http://localhost:3001/projects';
 
 interface ProjectStore {
   projects: Project[];
-  addProject: (project: Project) => void;
-  updateProject: (id: string, updates: Partial<Project>) => void;
-  deleteProject: (id: string) => void;
+  loading: boolean;
+  fetchProjects: () => Promise<void>;
+  addProject: (data: Omit<Project, 'id' | 'createdAt'>) => Promise<void>;
+  updateProject: (id: string, updates: Partial<Project>) => Promise<void>;
+  deleteProject: (id: string) => Promise<void>;
 }
 
 export const useProjectStore = create<ProjectStore>((set) => ({
-  projects: loadFromStorage(),
+  projects: [],
+  loading: false,
 
-  addProject: (project) =>
-    set((state) => {
-      const next = [...state.projects, project];
-      saveToStorage(next);
-      return { projects: next };
-    }),
+  fetchProjects: async () => {
+    set({ loading: true });
+    const res = await fetch(API);
+    const projects: Project[] = await res.json();
+    set({ projects, loading: false });
+  },
 
-  updateProject: (id, updates) =>
-    set((state) => {
-      const next = state.projects.map((p) =>
-        p.id === id ? { ...p, ...updates } : p
-      );
-      saveToStorage(next);
-      return { projects: next };
-    }),
+  addProject: async (data) => {
+    const project: Project = {
+      id: crypto.randomUUID(),
+      createdAt: new Date().toISOString(),
+      ...data,
+    };
+    const res = await fetch(API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(project),
+    });
+    const created: Project = await res.json();
+    set((state) => ({ projects: [...state.projects, created] }));
+  },
 
-  deleteProject: (id) =>
-    set((state) => {
-      const next = state.projects.filter((p) => p.id !== id);
-      saveToStorage(next);
-      return { projects: next };
-    }),
+  updateProject: async (id, updates) => {
+    const res = await fetch(`${API}/${id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(updates),
+    });
+    const updated: Project = await res.json();
+    set((state) => ({
+      projects: state.projects.map((p) => (p.id === id ? updated : p)),
+    }));
+  },
+
+  deleteProject: async (id) => {
+    await fetch(`${API}/${id}`, { method: 'DELETE' });
+    set((state) => ({
+      projects: state.projects.filter((p) => p.id !== id),
+    }));
+  },
 }));
