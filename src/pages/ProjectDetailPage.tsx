@@ -52,20 +52,20 @@ export function ProjectDetailPage() {
     setEditing(true);
   }
 
-  function handleSave(e: React.FormEvent) {
+  async function handleSave(e: React.FormEvent) {
     e.preventDefault();
     const techStack =
       typeof form.techStack === 'string'
         ? (form.techStack as string).split(',').map((t) => t.trim()).filter(Boolean)
         : form.techStack ?? project!.techStack;
 
-    updateProject(project!.id, { ...form, techStack });
+    await updateProject(project!.id, { ...form, techStack });
     setEditing(false);
   }
 
-  function handleDelete() {
+  async function handleDelete() {
     if (!confirm('이 프로젝트를 삭제할까요?')) return;
-    deleteProject(project!.id);
+    await deleteProject(project!.id);
     navigate('/projects');
   }
 
