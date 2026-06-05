@@ -51,7 +51,8 @@ export const useProjectStore = create<ProjectStore>((set) => ({
   },
 
   deleteProject: async (id) => {
-    await fetch(`${API}/${id}`, { method: 'DELETE' });
+    const res = await fetch(`${API}/${id}`, { method: 'DELETE' });
+    if (!res.ok) throw new Error('삭제 실패');
     set((state) => ({
       projects: state.projects.filter((p) => p.id !== id),
     }));
