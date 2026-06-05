@@ -94,20 +94,23 @@ main
 ```
 
 - `main` 직접 push 금지
-- 작업 단위로 브랜치 생성 → PR → Squash Merge
 - 브랜치명은 소문자 + 하이픈: `feature/sidebar-layout`, `fix/modal-date-validation`
 
-### 머지 방식 — Squash Merge
+### 작업 흐름 (매 작업마다 이 순서로)
 
-- PR의 커밋을 하나로 합쳐 `main`에 머지
-- 머지 후 feature 브랜치 즉시 삭제
+```
+1. git checkout -b feature/<설명>   # 브랜치 생성
+2. 작업 & git commit                # 커밋
+3. git push origin feature/<설명>   # 푸시
+4. gh pr create                     # PR 생성
+5. gh pr merge --squash --delete-branch  # Squash Merge + 브랜치 삭제
+```
 
 ### PR 규칙
 
 - **제목**: 커밋 메시지와 동일한 형식 (`feat: ...`, `fix: ...`)
 - **본문**: 변경 이유 + 주요 변경 사항 요약
 - **머지**: Squash Merge 후 브랜치 즉시 삭제
-- **셀프 리뷰**: 머지 전 diff 한 번 확인
 
 ---
 
