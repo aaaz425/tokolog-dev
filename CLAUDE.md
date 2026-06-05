@@ -4,10 +4,16 @@
 
 ## 기술 스택
 
-- React 18 + Vite + TypeScript
-- Tailwind CSS (v4, `@tailwindcss/vite` 플러그인)
-- React Router v6
-- Zustand (상태관리 + localStorage 영속성)
+| 역할 | 선택 |
+|------|------|
+| 프론트엔드 | React 18 + Vite + TypeScript |
+| 스타일링 | Tailwind CSS v4 (`@tailwindcss/vite` 플러그인) |
+| 상태관리 | Zustand + localStorage (현재) → Supabase 연동 시 제거 |
+| DB | Supabase (PostgreSQL) |
+| 백엔드 API | Supabase 내장 REST API + supabase-js |
+| 이미지 스토리지 | Supabase Storage |
+| 호스팅 | Vercel |
+| 라우팅 | React Router v6 |
 
 ## 실행 명령어
 
