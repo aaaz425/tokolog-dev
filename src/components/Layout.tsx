@@ -7,7 +7,7 @@ interface LayoutProps {
 }
 
 const NAV_ITEMS = [
-  { label: 'Projects', path: '/' },
+  { label: 'Projects', path: '/projects' },
   { label: 'Experience', path: '/experience' },
   { label: 'Tech Stack', path: '/techstack' },
 ];
@@ -20,12 +20,15 @@ export function Layout({ children, onAddProject }: LayoutProps) {
     <div className="min-h-screen bg-neutral-100 flex">
       {/* PC 사이드바 */}
       <aside className="hidden lg:flex fixed left-0 top-0 w-[220px] min-h-screen bg-black flex-col px-4 py-5 z-20">
-        <div className="flex items-center gap-2 mb-8">
+        <button
+          onClick={() => navigate('/')}
+          className="flex items-center gap-2 mb-8 cursor-pointer hover:opacity-80 transition-opacity"
+        >
           <div className="w-7 h-7 rounded-md bg-white flex items-center justify-center text-black text-xs font-bold font-heading">
             M
           </div>
           <span className="font-heading text-white text-base font-bold">tokolog</span>
-        </div>
+        </button>
         <nav className="flex flex-col gap-1">
           {NAV_ITEMS.map((item) => {
             const isActive = location.pathname === item.path;
