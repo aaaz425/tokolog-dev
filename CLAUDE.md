@@ -8,10 +8,10 @@
 |------|------|
 | 프론트엔드 | React 18 + Vite + TypeScript |
 | 스타일링 | Tailwind CSS v4 (`@tailwindcss/vite` 플러그인) |
-| 상태관리 | Zustand + localStorage (현재) → Supabase 연동 시 제거 |
-| DB | Supabase (PostgreSQL) |
-| 백엔드 API | Supabase 내장 REST API + supabase-js |
-| 이미지 스토리지 | Supabase Storage |
+| 상태관리 | Zustand (UI 상태) |
+| 데이터 | 정적 JSON 파일 (`src/data/`) |
+| 이미지 | Vercel `public/` 폴더 |
+| 동영상 | Google Drive iframe 임베드 |
 | 호스팅 | Vercel |
 | 라우팅 | React Router v6 |
 
@@ -19,6 +19,7 @@
 
 ```bash
 npm run dev      # 개발 서버 (localhost:5173)
+npm run server   # json-server (localhost:3001) — 별도 터미널에서 실행
 npm run build    # 프로덕션 빌드
 npm run preview  # 빌드 결과 미리보기
 ```
@@ -28,8 +29,9 @@ npm run preview  # 빌드 결과 미리보기
 ```
 src/
 ├── components/   # 재사용 UI 컴포넌트 (Layout, ProjectCard, TagBadge)
+├── data/         # 정적 JSON 데이터 (projects.json, posts.json 등)
 ├── pages/        # 라우트별 페이지 (HomePage, ProjectDetailPage)
-├── store/        # Zustand 스토어 (projectStore.ts)
+├── store/        # Zustand 스토어 (UI 상태만)
 └── types/        # TypeScript 타입 정의 (project.ts)
 ```
 
@@ -60,7 +62,7 @@ interface Project {
 
 - 컴포넌트: named export (`export function Foo`)
 - 타입은 모두 `src/types/` 에 위치
-- 스토어 액션은 Zustand set 함수 안에서 localStorage도 함께 동기화
+- 데이터는 `src/data/*.json`에서 직접 import, Zustand는 UI 상태(필터 탭 등)에만 사용
 - 새 ProjectType 추가 시 수정 파일: `src/types/project.ts`, `ProjectCard.tsx`, `HomePage.tsx` 필터 탭
 
 ## Git 컨벤션

@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Layout } from '../components/Layout';
 import { ProjectCard } from '../components/ProjectCard';
 import { useProjectStore } from '../store/projectStore';
-import type { Project, ProjectType } from '../types/project';
+import type { ProjectType } from '../types/project';
 
 type FilterType = 'all' | ProjectType;
 
@@ -22,18 +22,21 @@ const TABS: { label: string; value: FilterType }[] = [
 ];
 
 export function HomePage() {
-  const { projects, addProject } = useProjectStore();
+  const { projects, addProject, fetchProjects } = useProjectStore();
   const [filter, setFilter] = useState<FilterType>('all');
   const [showModal, setShowModal] = useState(false);
   const [form, setForm] = useState(EMPTY_FORM);
 
+  useEffect(() => {
+    fetchProjects();
+  }, []);
+
   const filtered =
     filter === 'all' ? projects : projects.filter((p) => p.type === filter);
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    const project: Project = {
-      id: crypto.randomUUID(),
+    await addProject({
       title: form.title.trim(),
       type: form.type,
       description: form.description.trim(),
@@ -43,9 +46,7 @@ export function HomePage() {
         .filter(Boolean),
       startDate: form.startDate,
       endDate: form.endDate || undefined,
-      createdAt: new Date().toISOString(),
-    };
-    addProject(project);
+    });
     setForm(EMPTY_FORM);
     setShowModal(false);
   }
