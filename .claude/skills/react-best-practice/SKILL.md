@@ -1,4 +1,5 @@
 ---
+name: react-best-practice
 description: tokolog 프로젝트의 React 컴포넌트 작성 규칙. 컴포넌트 생성, useState/useEffect 사용, props 정의, Zustand 스토어 패턴, TypeScript 타입 작성 시 참조한다.
 ---
 
