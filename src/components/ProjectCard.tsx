@@ -6,14 +6,18 @@ interface ProjectCardProps {
   project: Project;
 }
 
+const TYPE_STYLES: Record<string, string> = {
+  company: 'bg-black text-white',
+  personal: 'bg-blue-600 text-white',
+};
+
+const TYPE_LABELS: Record<string, string> = {
+  company: '회사',
+  personal: '개인',
+};
+
 export function ProjectCard({ project }: ProjectCardProps) {
   const navigate = useNavigate();
-
-  const typeLabel = project.type === 'company' ? '사내' : '개인';
-  const typeBg =
-    project.type === 'company'
-      ? 'bg-blue-100 text-blue-700'
-      : 'bg-emerald-100 text-emerald-700';
 
   const period = project.endDate
     ? `${project.startDate} ~ ${project.endDate}`
@@ -22,32 +26,42 @@ export function ProjectCard({ project }: ProjectCardProps) {
   return (
     <div
       onClick={() => navigate(`/projects/${project.id}`)}
-      className="bg-white border border-gray-200 rounded-xl p-5 cursor-pointer hover:shadow-md hover:border-indigo-300 transition-all"
+      className="bg-white rounded-lg overflow-hidden border border-gray-200 hover:shadow-md transition-shadow cursor-pointer"
     >
-      <div className="flex items-start justify-between gap-2 mb-2">
-        <h2 className="text-base font-semibold text-gray-900 leading-snug">
-          {project.title}
-        </h2>
-        <span
-          className={`shrink-0 text-xs font-medium px-2 py-0.5 rounded-full ${typeBg}`}
-        >
-          {typeLabel}
+      {/* 썸네일 플레이스홀더 */}
+      <div className="aspect-video bg-neutral-100 flex items-center justify-center">
+        <span className="font-heading text-2xl font-bold text-neutral-300">
+          {project.title.charAt(0)}
         </span>
       </div>
-      <p className="text-sm text-gray-500 mb-3 line-clamp-2">
-        {project.description}
-      </p>
-      <div className="flex flex-wrap gap-1 mb-3">
-        {project.techStack.slice(0, 5).map((tag) => (
-          <TagBadge key={tag} label={tag} />
-        ))}
-        {project.techStack.length > 5 && (
-          <span className="text-xs text-gray-400">
-            +{project.techStack.length - 5}
+
+      {/* 콘텐츠 */}
+      <div className="p-4">
+        <div className="flex items-center justify-between mb-2">
+          <span
+            className={`font-body text-xs font-medium px-2.5 py-1 rounded-full ${TYPE_STYLES[project.type] ?? 'bg-gray-100 text-[#424242]'}`}
+          >
+            {TYPE_LABELS[project.type] ?? project.type}
           </span>
-        )}
+          <span className="font-body text-xs text-gray-400">{period}</span>
+        </div>
+        <h3 className="font-heading text-base font-semibold text-black mb-1 leading-snug">
+          {project.title}
+        </h3>
+        <p className="font-body text-sm text-[#424242] mb-3 line-clamp-2">
+          {project.description}
+        </p>
+        <div className="flex flex-wrap gap-1">
+          {project.techStack.slice(0, 5).map((tag) => (
+            <TagBadge key={tag} label={tag} />
+          ))}
+          {project.techStack.length > 5 && (
+            <span className="font-body text-xs text-gray-400">
+              +{project.techStack.length - 5}
+            </span>
+          )}
+        </div>
       </div>
-      <p className="text-xs text-gray-400">{period}</p>
     </div>
   );
 }
