@@ -58,12 +58,21 @@ interface Project {
 }
 ```
 
-## 코딩 컨벤션
+## 개발 규칙
 
-- 컴포넌트: named export (`export function Foo`)
+### React 컴포넌트
+- **작성·수정 시 반드시 `react-best-practice` skill을 먼저 실행한다**
+- named export (`export function Foo`)
 - 타입은 모두 `src/types/` 에 위치
 - 데이터는 `src/data/*.json`에서 직접 import, Zustand는 UI 상태(필터 탭 등)에만 사용
 - 새 ProjectType 추가 시 수정 파일: `src/types/project.ts`, `ProjectCard.tsx`, `HomePage.tsx` 필터 탭
+
+### 스타일
+- **작업 시 반드시 [`docs/design.md`](docs/design.md)를 먼저 확인한다**
+- 색상, 타이포그래피, 간격은 `docs/design.md`의 Tailwind 클래스 기준을 따른다
+- 새 색상·폰트·radius를 임의로 추가하지 않는다
+- `docs/design.md`에 없는 패턴이 필요하면 먼저 문서에 추가한 뒤 구현한다
+- 라이트모드 단일 기준 (다크모드 없음)
 
 ## Git 컨벤션
 
@@ -115,14 +124,3 @@ main
 - **본문**: 변경 이유 + 주요 변경 사항 요약
 - **머지**: Squash Merge 후 브랜치 즉시 삭제
 
----
-
-## 스타일 작업 규칙
-
-**UI·스타일 관련 작업 시 반드시 [`docs/design.md`](docs/design.md)를 먼저 확인한다.**
-
-- 색상, 타이포그래피, 간격은 `docs/design.md`의 Tailwind 클래스 기준을 따른다
-- 새 색상·폰트·radius를 임의로 추가하지 않는다
-- 컴포넌트 추가 시 `docs/design.md`의 컴포넌트 패턴을 재사용한다
-- `docs/design.md`에 없는 패턴이 필요하면 먼저 문서에 추가한 뒤 구현한다
-- 라이트모드 단일 기준 (다크모드 없음)
