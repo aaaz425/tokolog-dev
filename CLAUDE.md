@@ -74,6 +74,11 @@ interface Project {
 - `docs/design.md`에 없는 패턴이 필요하면 먼저 문서에 추가한 뒤 구현한다
 - 라이트모드 단일 기준 (다크모드 없음)
 
+### 아이콘
+- 아이콘은 **`lucide-react`만 사용한다** (`import { IconName } from 'lucide-react'`)
+- 텍스트 기호(`×`, `←`, `→` 등)로 아이콘을 표현하지 않는다
+- 이모지는 장식 텍스트에만 허용 (UI 액션 아이콘으로는 사용 불가)
+
 ## Git 컨벤션
 
 ### 커밋 메시지 — Conventional Commits

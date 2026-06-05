@@ -1,3 +1,4 @@
+import { ArrowRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { Layout } from '../components/Layout';
 
@@ -18,9 +19,9 @@ export function LandingPage() {
         </p>
         <button
           onClick={() => navigate('/projects')}
-          className="font-body text-sm font-medium bg-black text-white px-5 py-2.5 rounded-full hover:bg-[#424242] transition-colors cursor-pointer"
+          className="flex items-center gap-1.5 font-body text-sm font-medium bg-black text-white px-5 py-2.5 rounded-full hover:bg-[#424242] transition-colors cursor-pointer"
         >
-          프로젝트 보기 →
+          프로젝트 보기 <ArrowRight size={16} strokeWidth={2} />
         </button>
       </div>
     </Layout>
