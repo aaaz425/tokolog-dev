@@ -78,17 +78,30 @@ export function HomePage() {
 
 ## 4. useEffect 사용 방식
 
-- 마운트 시 1회 실행: 의존성 배열 `[]`
-- **Zustand 스토어 액션은 의존성 배열에 넣지 않는다** (안정적인 참조이므로)
-- cleanup이 필요하면 반드시 `return` 함수로 처리
+- `[]`는 "진짜 의존성이 없을 때"만 사용. 의존성을 임의로 빼면 버그.
+- **ESLint `react-hooks/exhaustive-deps` 규칙을 따른다** — 린터 경고는 억지로 끄지 않는다.
+- Zustand 스토어 액션은 stable reference이므로 포함해도 재실행 없음. 포함/제외 모두 허용.
+- cleanup이 필요하면 반드시 `return` 함수로 처리.
+- **파라미터가 바뀌는 fetch는 race condition 방지를 위해 cleanup 필수**.
 
 ```tsx
 const { fetchProjects } = useProjectStore();
 
-// Good — Zustand 액션은 의존성 배열 제외
+// 마운트 시 1회 — 의존성 진짜 없음
 useEffect(() => {
   fetchProjects();
 }, []);
+
+// 의존성 있는 fetch — ignore 플래그로 race condition 방지
+useEffect(() => {
+  let ignore = false;
+  fetch(`/api/projects?q=${query}`)
+    .then(res => res.json())
+    .then(data => {
+      if (!ignore) setResults(data);
+    });
+  return () => { ignore = true; };
+}, [query]);
 
 // cleanup이 필요한 경우
 useEffect(() => {
@@ -181,7 +194,54 @@ fetchProjects: async () => {
 },
 ```
 
-## 9. 반복 Tailwind 클래스 처리
+## 9. useEffectEvent (React 19.2+)
+
+Effect 내부에서 "항상 최신 값이 필요하지만 Effect를 재실행하고 싶지 않은 로직"은 `useEffectEvent`로 분리한다.
+
+```tsx
+import { useEffect, useEffectEvent } from 'react';
+
+function Page({ url, filter }) {
+  // filter가 바뀌어도 Effect를 재실행하지 않음
+  const onVisit = useEffectEvent((visitedUrl: string) => {
+    logVisit(visitedUrl, filter); // 최신 filter 값을 읽되 reactive하지 않음
+  });
+
+  useEffect(() => {
+    onVisit(url);
+  }, [url]); // url 변경만 감지
+}
+```
+
+- `useEffectEvent`로 감싼 함수는 의존성 배열에 넣지 않는다.
+- Effect 외부에서 호출하면 안 된다.
+
+## 10. Custom Hook 추출 기준
+
+- useEffect 로직이 3줄 이상이거나, 같은 패턴이 2곳 이상이면 custom hook으로 추상화한다.
+- hook 이름은 `use`로 시작한다.
+
+```tsx
+// 컴포넌트에 useEffect를 직접 쓰지 않고
+function useProjectDetail(id: string) {
+  const { projects, fetchProjects } = useProjectStore();
+
+  useEffect(() => {
+    fetchProjects();
+  }, []);
+
+  return projects.find(p => p.id === id);
+}
+
+// 컴포넌트는 hook만 호출
+export function ProjectDetailPage() {
+  const { id } = useParams<{ id: string }>();
+  const project = useProjectDetail(id!);
+  // ...
+}
+```
+
+## 11. 반복 Tailwind 클래스 처리
 
 - 동일한 클래스 조합이 3회 이상 반복되면 **파일 상단 상수**로 추출
 
