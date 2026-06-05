@@ -81,7 +81,7 @@ export function ProjectDetailPage() {
     <Layout>
       <button
         onClick={() => navigate('/')}
-        className="font-body text-sm text-gray-400 hover:text-black mb-6 flex items-center gap-1 transition-colors"
+        className="font-body text-sm text-gray-400 hover:text-black mb-6 flex items-center gap-1 transition-colors cursor-pointer"
       >
         ← 목록으로
       </button>
@@ -151,13 +151,13 @@ export function ProjectDetailPage() {
             <button
               type="button"
               onClick={() => setEditing(false)}
-              className="flex-1 border border-gray-200 text-[#424242] font-body text-sm font-medium py-2 rounded-full hover:bg-neutral-100 transition-colors"
+              className="flex-1 border border-gray-200 text-[#424242] font-body text-sm font-medium py-2 rounded-full hover:bg-neutral-100 transition-colors cursor-pointer"
             >
               취소
             </button>
             <button
               type="submit"
-              className="flex-1 bg-black text-white font-body text-sm font-medium py-2 rounded-full hover:bg-[#424242] transition-colors"
+              className="flex-1 bg-black text-white font-body text-sm font-medium py-2 rounded-full hover:bg-[#424242] transition-colors cursor-pointer"
             >
               저장
             </button>
@@ -215,13 +215,13 @@ export function ProjectDetailPage() {
           <div className="flex gap-2 pt-4 border-t border-gray-100">
             <button
               onClick={startEdit}
-              className="font-body px-4 py-1.5 text-sm font-medium border border-gray-200 text-[#424242] rounded-full hover:border-black hover:text-black transition-colors"
+              className="font-body px-4 py-1.5 text-sm font-medium border border-gray-200 text-[#424242] rounded-full hover:border-black hover:text-black transition-colors cursor-pointer"
             >
               편집
             </button>
             <button
               onClick={handleDelete}
-              className="font-body px-4 py-1.5 text-sm font-medium border border-red-200 text-red-500 rounded-full hover:bg-red-50 transition-colors"
+              className="font-body px-4 py-1.5 text-sm font-medium border border-red-200 text-red-500 rounded-full hover:bg-red-50 transition-colors cursor-pointer"
             >
               삭제
             </button>

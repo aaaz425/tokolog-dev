@@ -275,6 +275,7 @@ const typeStyles = {
 | 사이드바 메뉴 active | `text-white bg-white/10` |
 | Input focus | `focus:border-black` |
 | disabled | `opacity-50 cursor-not-allowed` |
+| 클릭 가능한 모든 요소 | `cursor-pointer` — `<button>`, `<a>`, 카드 등 onClick이 있는 요소 필수 |
 
 모든 전환에 `transition-colors` 또는 `transition-shadow` 적용.
 

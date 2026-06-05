@@ -33,7 +33,7 @@ export function Layout({ children, onAddProject }: LayoutProps) {
               <button
                 key={item.path}
                 onClick={() => navigate(item.path)}
-                className={`flex items-center gap-3 px-3 py-2 rounded-md font-body text-sm font-medium text-left transition-colors ${
+                className={`flex items-center gap-3 px-3 py-2 rounded-md font-body text-sm font-medium text-left transition-colors cursor-pointer ${
                   isActive
                     ? 'text-white bg-white/10'
                     : 'text-neutral-400 hover:text-white hover:bg-white/5'
@@ -53,7 +53,7 @@ export function Layout({ children, onAddProject }: LayoutProps) {
           {onAddProject && (
             <button
               onClick={onAddProject}
-              className="font-body text-sm font-medium bg-black text-white px-4 py-1.5 rounded-full hover:bg-[#424242] transition-colors"
+              className="font-body text-sm font-medium bg-black text-white px-4 py-1.5 rounded-full hover:bg-[#424242] transition-colors cursor-pointer"
             >
               + New Project
             </button>

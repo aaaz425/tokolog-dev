@@ -26,7 +26,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
   return (
     <div
       onClick={() => navigate(`/projects/${project.id}`)}
-      className="bg-white rounded-lg overflow-hidden border border-gray-200 hover:shadow-md transition-shadow cursor-pointer"
+      className="bg-white rounded-lg overflow-hidden border border-gray-200 hover:shadow-md transition-shadow cursor-pointer select-none"
     >
       {/* 썸네일 플레이스홀더 */}
       <div className="aspect-video bg-neutral-100 flex items-center justify-center">

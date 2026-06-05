@@ -64,11 +64,11 @@ export function HomePage() {
       <div className="hidden lg:flex items-center gap-3 mb-6">
         <button
           onClick={() => setShowModal(true)}
-          className="flex items-center gap-2 font-body text-sm font-medium bg-black text-white px-4 py-2 rounded-full hover:bg-[#424242] transition-colors"
+          className="flex items-center gap-2 font-body text-sm font-medium bg-black text-white px-4 py-2 rounded-full hover:bg-[#424242] transition-colors cursor-pointer"
         >
           + New Project
         </button>
-        <button className="flex items-center gap-2 font-body text-sm font-medium border border-black text-black px-4 py-2 rounded-full hover:bg-neutral-100 transition-colors">
+        <button className="flex items-center gap-2 font-body text-sm font-medium border border-black text-black px-4 py-2 rounded-full hover:bg-neutral-100 transition-colors cursor-pointer">
           Filter
         </button>
       </div>
@@ -79,7 +79,7 @@ export function HomePage() {
           <button
             key={tab.value}
             onClick={() => setFilter(tab.value)}
-            className={`font-body px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${
+            className={`font-body px-4 py-1.5 rounded-full text-sm font-medium transition-colors cursor-pointer ${
               filter === tab.value
                 ? 'bg-black text-white'
                 : 'border border-gray-200 text-[#424242] hover:border-black'
@@ -111,7 +111,7 @@ export function HomePage() {
               <h2 className="font-heading text-base font-semibold text-black">새 프로젝트</h2>
               <button
                 onClick={() => setShowModal(false)}
-                className="text-gray-400 hover:text-black text-xl leading-none transition-colors"
+                className="text-gray-400 hover:text-black text-xl leading-none transition-colors cursor-pointer"
               >
                 ×
               </button>
@@ -195,13 +195,13 @@ export function HomePage() {
                 <button
                   type="button"
                   onClick={() => setShowModal(false)}
-                  className="flex-1 border border-gray-200 text-[#424242] font-body text-sm font-medium py-2 rounded-full hover:bg-neutral-100 transition-colors"
+                  className="flex-1 border border-gray-200 text-[#424242] font-body text-sm font-medium py-2 rounded-full hover:bg-neutral-100 transition-colors cursor-pointer"
                 >
                   취소
                 </button>
                 <button
                   type="submit"
-                  className="flex-1 bg-black text-white font-body text-sm font-medium py-2 rounded-full hover:bg-[#424242] transition-colors"
+                  className="flex-1 bg-black text-white font-body text-sm font-medium py-2 rounded-full hover:bg-[#424242] transition-colors cursor-pointer"
                 >
                   저장
                 </button>
