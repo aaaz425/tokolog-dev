@@ -36,6 +36,7 @@ interface ProjectFormModalProps {
 export function ProjectFormModal({ onClose }: ProjectFormModalProps) {
   const { addProject, loading } = useProjectStore();
   const [form, setForm] = useState(INITIAL_FORM);
+  const [errors, setErrors] = useState<{ title?: string; startDate?: string; description?: string; dateOrder?: string }>({});
   const [techStack, setTechStack] = useState<string[]>([]);
   const [techInput, setTechInput] = useState('');
   const [roleOpen, setRoleOpen] = useState(false);
@@ -58,6 +59,24 @@ export function ProjectFormModal({ onClose }: ProjectFormModalProps) {
 
   function updateForm(updates: Partial<typeof INITIAL_FORM>) {
     setForm((prev) => ({ ...prev, ...updates }));
+    setErrors((prev) => {
+      const next = { ...prev };
+      if ('title' in updates) delete next.title;
+      if ('description' in updates) delete next.description;
+      if ('startDate' in updates) { delete next.startDate; delete next.dateOrder; }
+      if ('endDate' in updates) delete next.dateOrder;
+      return next;
+    });
+  }
+
+  function validate() {
+    const e: typeof errors = {};
+    if (!form.title.trim()) e.title = '프로젝트명을 입력하세요';
+    if (!form.startDate) e.startDate = '시작일을 입력하세요';
+    if (!form.description.trim()) e.description = '프로젝트 설명을 입력하세요';
+    if (form.endDate && form.startDate && form.endDate < form.startDate)
+      e.dateOrder = '종료일은 시작일 이후여야 합니다';
+    return e;
   }
 
   function handleTechKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
@@ -80,19 +99,25 @@ export function ProjectFormModal({ onClose }: ProjectFormModalProps) {
   }
 
   async function handleSubmit() {
-    await addProject({
-      title: form.title,
-      type: form.type,
-      description: form.description,
-      techStack,
-      startDate: form.startDate,
-      endDate: form.endDate || undefined,
-      leader: form.leader || undefined,
-      thumbnailUrl: form.thumbnailUrl || undefined,
-      githubUrl: form.githubUrl || undefined,
-      deployUrl: form.deployUrl || undefined,
-    });
-    onClose();
+    const e = validate();
+    if (Object.keys(e).length > 0) { setErrors(e); return; }
+    try {
+      await addProject({
+        title: form.title,
+        type: form.type,
+        description: form.description,
+        techStack,
+        startDate: form.startDate,
+        endDate: form.endDate || undefined,
+        leader: form.leader || undefined,
+        thumbnailUrl: form.thumbnailUrl || undefined,
+        githubUrl: form.githubUrl || undefined,
+        deployUrl: form.deployUrl || undefined,
+      });
+      onClose();
+    } catch {
+      // 서버 실패 시 모달 유지, 입력값 보존
+    }
   }
 
   const footer = (
@@ -128,8 +153,9 @@ export function ProjectFormModal({ onClose }: ProjectFormModalProps) {
               placeholder="Enter project title"
               value={form.title}
               onChange={(e) => updateForm({ title: e.target.value })}
-              className={inputClass}
+              className={`${inputClass} ${errors.title ? 'border-red-400' : ''}`}
             />
+            {errors.title && <p className="text-xs text-red-500 mt-1">{errors.title}</p>}
           </div>
 
           {/* 썸네일 링크 */}
@@ -238,6 +264,9 @@ export function ProjectFormModal({ onClose }: ProjectFormModalProps) {
                     />
                   </div>
                 </div>
+                {(errors.startDate || errors.dateOrder) && (
+                  <p className="text-xs text-red-500 mt-1">{errors.startDate ?? errors.dateOrder}</p>
+                )}
               </div>
 
               {/* 역할 — fixed 드롭다운 */}
@@ -284,8 +313,9 @@ export function ProjectFormModal({ onClose }: ProjectFormModalProps) {
               value={form.description}
               onChange={(e) => updateForm({ description: e.target.value })}
               rows={5}
-              className={`${inputClass} resize-none`}
+              className={`${inputClass} resize-none ${errors.description ? 'border-red-400' : ''}`}
             />
+            {errors.description && <p className="text-xs text-red-500 mt-1">{errors.description}</p>}
           </div>
 
           {/* 배포 링크 */}
