@@ -26,9 +26,10 @@ export function ProjectCard({ project }: ProjectCardProps) {
   const navigate = useNavigate();
   const { deleteProject } = useProjectStore();
 
+  const fmt = (d: string) => d.replace('-', '.');
   const period = project.endDate
-    ? `${project.startDate} ~ ${project.endDate}`
-    : `${project.startDate} ~ 진행 중`;
+    ? `${fmt(project.startDate)} ~ ${fmt(project.endDate)}`
+    : `${fmt(project.startDate)} ~ 진행 중`;
 
   async function handleDelete(e: React.MouseEvent) {
     e.stopPropagation();
