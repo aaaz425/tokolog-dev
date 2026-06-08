@@ -11,11 +11,15 @@ interface ProjectCardProps {
 const TYPE_STYLES: Record<string, string> = {
   company: 'bg-black text-white',
   personal: 'bg-blue-600 text-white',
+  team: 'bg-[#424242] text-white',
+  education: 'bg-emerald-600 text-white',
 };
 
 const TYPE_LABELS: Record<string, string> = {
-  company: '회사',
+  company: '사내',
   personal: '개인',
+  team: '팀',
+  education: '교육',
 };
 
 export function ProjectCard({ project }: ProjectCardProps) {

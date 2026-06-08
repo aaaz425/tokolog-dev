@@ -1,4 +1,4 @@
-export type ProjectType = 'company' | 'personal';
+export type ProjectType = 'personal' | 'team' | 'company' | 'education';
 
 export interface ProjectLink {
   label: string;
@@ -13,6 +13,10 @@ export interface Project {
   techStack: string[];
   startDate: string;
   endDate?: string;
+  leader?: string;
+  thumbnailUrl?: string;
+  githubUrl?: string;
+  deployUrl?: string;
   links?: ProjectLink[];
   createdAt: string;
 }
