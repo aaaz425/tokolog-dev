@@ -11,20 +11,25 @@ interface ProjectCardProps {
 const TYPE_STYLES: Record<string, string> = {
   company: 'bg-black text-white',
   personal: 'bg-blue-600 text-white',
+  team: 'bg-[#424242] text-white',
+  education: 'bg-emerald-600 text-white',
 };
 
 const TYPE_LABELS: Record<string, string> = {
-  company: '회사',
+  company: '사내',
   personal: '개인',
+  team: '팀',
+  education: '교육',
 };
 
 export function ProjectCard({ project }: ProjectCardProps) {
   const navigate = useNavigate();
   const { deleteProject } = useProjectStore();
 
+  const fmt = (d: string) => d.replace('-', '.');
   const period = project.endDate
-    ? `${project.startDate} ~ ${project.endDate}`
-    : `${project.startDate} ~ 진행 중`;
+    ? `${fmt(project.startDate)} ~ ${fmt(project.endDate)}`
+    : `${fmt(project.startDate)} ~ 진행 중`;
 
   async function handleDelete(e: React.MouseEvent) {
     e.stopPropagation();

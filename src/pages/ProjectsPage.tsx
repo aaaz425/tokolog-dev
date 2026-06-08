@@ -1,10 +1,13 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { Plus } from 'lucide-react';
 import { Layout } from '../components/Layout';
 import { ProjectCard } from '../components/ProjectCard';
+import { ProjectFormModal } from '../components/ProjectFormModal';
 import { useProjectStore } from '../store/projectStore';
 
 export function ProjectsPage() {
   const { projects, loading, fetchProjects } = useProjectStore();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     fetchProjects();
@@ -12,9 +15,18 @@ export function ProjectsPage() {
 
   return (
     <Layout>
-      <div className="mb-8">
-        <h1 className="font-heading text-2xl font-bold text-black">Projects</h1>
-        <p className="font-body text-sm text-[#424242] mt-1">사내·개인 프로젝트 목록</p>
+      <div className="flex items-start justify-between mb-8">
+        <div>
+          <h1 className="font-heading text-2xl font-bold text-black">Projects</h1>
+          <p className="font-body text-sm text-[#424242] mt-1">사내·개인 프로젝트 목록</p>
+        </div>
+        <button
+          onClick={() => setIsModalOpen(true)}
+          className="flex items-center gap-1.5 bg-black text-white text-sm font-medium px-4 py-2 rounded-full hover:bg-[#424242] transition-colors"
+        >
+          <Plus size={16} strokeWidth={2} />
+          새 프로젝트
+        </button>
       </div>
       {loading ? (
         <p className="font-body text-sm text-gray-400">불러오는 중...</p>
@@ -24,6 +36,9 @@ export function ProjectsPage() {
             <ProjectCard key={project.id} project={project} />
           ))}
         </div>
+      )}
+      {isModalOpen && (
+        <ProjectFormModal onClose={() => setIsModalOpen(false)} />
       )}
     </Layout>
   );

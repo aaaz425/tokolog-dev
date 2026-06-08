@@ -20,6 +20,8 @@
 | 카드 테두리 | `#E5E7EB` | `border-gray-200` |
 | Primary 버튼 배경 | `#000000` | `bg-black` |
 | Primary 버튼 텍스트 | `#FFFFFF` | `text-white` |
+| **Error / Destructive** — 폼 유효성 에러 텍스트 | `#EF4444` | `text-red-500` |
+| Error 보더 | `#EF4444` | `border-red-400` |
 
 ### 타입 배지 색상
 
