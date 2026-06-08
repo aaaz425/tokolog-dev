@@ -40,11 +40,10 @@ export function ProjectFormModal({ onClose }: ProjectFormModalProps) {
   const [techStack, setTechStack] = useState<string[]>([]);
   const [techInput, setTechInput] = useState('');
   const [roleOpen, setRoleOpen] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const [dropdownStyle, setDropdownStyle] = useState({ top: 0, left: 0, width: 0 });
   const roleRef = useRef<HTMLDivElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const startDateRef = useRef<HTMLInputElement>(null);
-  const endDateRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (!roleOpen) return;
@@ -101,6 +100,7 @@ export function ProjectFormModal({ onClose }: ProjectFormModalProps) {
   async function handleSubmit() {
     const e = validate();
     if (Object.keys(e).length > 0) { setErrors(e); return; }
+    setSubmitError(null);
     try {
       await addProject({
         title: form.title,
@@ -116,12 +116,14 @@ export function ProjectFormModal({ onClose }: ProjectFormModalProps) {
       });
       onClose();
     } catch {
-      // 서버 실패 시 모달 유지, 입력값 보존
+      setSubmitError('저장에 실패했습니다. 잠시 후 다시 시도해 주세요.');
     }
   }
 
   const footer = (
-    <div className="flex justify-end gap-2">
+    <div className="flex flex-col items-end gap-2">
+      {submitError && <p className="text-xs text-red-500">{submitError}</p>}
+      <div className="flex gap-2">
       <button
         type="button"
         onClick={onClose}
@@ -137,6 +139,7 @@ export function ProjectFormModal({ onClose }: ProjectFormModalProps) {
       >
         Save Project
       </button>
+      </div>
     </div>
   );
 
@@ -230,37 +233,41 @@ export function ProjectFormModal({ onClose }: ProjectFormModalProps) {
               <div className="flex-1 min-w-0">
                 <label className={labelClass}>진행기간</label>
                 <div className="flex items-center gap-0.5">
-                  {/* 날짜 입력: 클릭 시 showPicker()로 달력 열기 */}
-                  <div
-                    className="flex-1 min-w-0 flex items-center border border-gray-200 rounded-md px-2 py-2 cursor-pointer hover:border-gray-400 transition-colors"
-                    onClick={() => startDateRef.current?.showPicker()}
-                  >
-                    <span className={`flex-1 text-sm select-none ${form.startDate ? 'text-[#424242]' : 'text-gray-300'}`}>
-                      {form.startDate ? form.startDate.replace('-', '.') : 'YYYY.MM'}
-                    </span>
-                    <Calendar size={13} strokeWidth={1.5} className="text-gray-300 shrink-0" />
+                  <div className="relative flex-1 min-w-0">
+                    <label
+                      htmlFor="startDate"
+                      className="flex items-center border border-gray-200 rounded-md px-2 py-2 cursor-pointer hover:border-gray-400 transition-colors"
+                    >
+                      <span className={`flex-1 text-sm select-none ${form.startDate ? 'text-[#424242]' : 'text-gray-300'}`}>
+                        {form.startDate ? form.startDate.replace('-', '.') : 'YYYY.MM'}
+                      </span>
+                      <Calendar size={13} strokeWidth={1.5} className="text-gray-300 shrink-0" />
+                    </label>
                     <input
-                      ref={startDateRef}
+                      id="startDate"
                       type="month"
                       value={form.startDate}
                       onChange={(e) => updateForm({ startDate: e.target.value })}
-                      className="absolute opacity-0 pointer-events-none w-0 h-0"
+                      className="absolute inset-0 opacity-0 w-full h-full cursor-pointer"
                     />
                   </div>
                   <span className="text-gray-300 text-xs shrink-0">-</span>
-                  <div
-                    className="flex-1 min-w-0 flex items-center border border-gray-200 rounded-md px-2 py-2 cursor-pointer hover:border-gray-400 transition-colors"
-                    onClick={() => endDateRef.current?.showPicker()}
-                  >
-                    <span className={`flex-1 text-sm select-none ${form.endDate ? 'text-[#424242]' : 'text-gray-300'}`}>
-                      {form.endDate ? form.endDate.replace('-', '.') : 'YYYY.MM'}
-                    </span>
+                  <div className="relative flex-1 min-w-0">
+                    <label
+                      htmlFor="endDate"
+                      className="flex items-center border border-gray-200 rounded-md px-2 py-2 cursor-pointer hover:border-gray-400 transition-colors"
+                    >
+                      <span className={`flex-1 text-sm select-none ${form.endDate ? 'text-[#424242]' : 'text-gray-300'}`}>
+                        {form.endDate ? form.endDate.replace('-', '.') : 'YYYY.MM'}
+                      </span>
+                      <Calendar size={13} strokeWidth={1.5} className="text-gray-300 shrink-0" />
+                    </label>
                     <input
-                      ref={endDateRef}
+                      id="endDate"
                       type="month"
                       value={form.endDate}
                       onChange={(e) => updateForm({ endDate: e.target.value })}
-                      className="absolute opacity-0 pointer-events-none w-0 h-0"
+                      className="absolute inset-0 opacity-0 w-full h-full cursor-pointer"
                     />
                   </div>
                 </div>
