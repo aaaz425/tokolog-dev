@@ -24,18 +24,24 @@ export const useProjectStore = create<ProjectStore>((set) => ({
   },
 
   addProject: async (data) => {
-    const project: Project = {
-      id: crypto.randomUUID(),
-      createdAt: new Date().toISOString(),
-      ...data,
-    };
-    const res = await fetch(API, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(project),
-    });
-    const created: Project = await res.json();
-    set((state) => ({ projects: [...state.projects, created] }));
+    set({ loading: true });
+    try {
+      const project: Project = {
+        id: crypto.randomUUID(),
+        createdAt: new Date().toISOString(),
+        ...data,
+      };
+      const res = await fetch(API, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(project),
+      });
+      if (!res.ok) throw new Error(`서버 오류: ${res.status}`);
+      const created: Project = await res.json();
+      set((state) => ({ projects: [...state.projects, created] }));
+    } finally {
+      set({ loading: false });
+    }
   },
 
   updateProject: async (id, updates) => {
