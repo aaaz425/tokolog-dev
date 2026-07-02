@@ -1,0 +1,6 @@
+@import 'tailwindcss';
+
+@theme inline {
+  --font-heading: var(--font-manrope);
+  --font-body: var(--font-inter);
+}

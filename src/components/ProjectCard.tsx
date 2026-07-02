@@ -1,90 +1,72 @@
-import { useNavigate } from 'react-router-dom';
-import { X } from 'lucide-react';
-import { useProjectStore } from '../store/projectStore';
-import type { Project } from '../types/project';
-import { TagBadge } from './TagBadge';
+import Link from 'next/link';
+import { TagBadge } from '@/components/TagBadge';
+import type { Project, ProjectType } from '@/types/project';
+
+const TYPE_STYLES: Record<ProjectType, string> = {
+  company: 'bg-black text-white',
+  team: 'bg-[#424242] text-white',
+  personal: 'bg-blue-600 text-white',
+};
+
+const TYPE_LABELS: Record<ProjectType, string> = {
+  company: '회사',
+  team: '팀',
+  personal: '개인',
+};
 
 interface ProjectCardProps {
   project: Project;
 }
 
-const TYPE_STYLES: Record<string, string> = {
-  company: 'bg-black text-white',
-  personal: 'bg-blue-600 text-white',
-  team: 'bg-[#424242] text-white',
-  education: 'bg-emerald-600 text-white',
-};
-
-const TYPE_LABELS: Record<string, string> = {
-  company: '사내',
-  personal: '개인',
-  team: '팀',
-  education: '교육',
-};
+function formatPeriod(startDate: string, endDate?: string) {
+  const fmt = (d: string) => d.replace('-', '.');
+  return endDate ? `${fmt(startDate)} ~ ${fmt(endDate)}` : `${fmt(startDate)} ~ 진행 중`;
+}
 
 export function ProjectCard({ project }: ProjectCardProps) {
-  const navigate = useNavigate();
-  const { deleteProject } = useProjectStore();
-
-  const fmt = (d: string) => d.replace('-', '.');
-  const period = project.endDate
-    ? `${fmt(project.startDate)} ~ ${fmt(project.endDate)}`
-    : `${fmt(project.startDate)} ~ 진행 중`;
-
-  async function handleDelete(e: React.MouseEvent) {
-    e.stopPropagation();
-    if (!confirm('이 프로젝트를 삭제할까요?')) return;
-    await deleteProject(project.id);
-  }
-
   return (
-    <div
-      onClick={() => navigate(`/projects/${project.id}`)}
-      className="relative group bg-white rounded-lg overflow-hidden border border-gray-200 hover:shadow-md transition-shadow cursor-pointer select-none"
-    >
-      {/* 썸네일 플레이스홀더 */}
-      <div className="aspect-video bg-neutral-100 flex items-center justify-center relative">
-        <span className="font-heading text-2xl font-bold text-neutral-300">
-          {project.title.charAt(0)}
-        </span>
-
-        {/* hover 삭제 버튼 */}
-        <button
-          onClick={handleDelete}
-          className="absolute top-2 right-2 w-7 h-7 flex items-center justify-center rounded-full bg-white/80 border border-gray-200 text-gray-400 hover:text-red-500 hover:border-red-200 hover:bg-red-50 opacity-0 group-hover:opacity-100 transition-all cursor-pointer z-10"
-          aria-label="프로젝트 삭제"
-        >
-          <X size={14} strokeWidth={2} />
-        </button>
-      </div>
-
-      {/* 콘텐츠 */}
-      <div className="p-4">
-        <div className="flex items-center justify-between mb-2">
-          <span
-            className={`font-body text-xs font-medium px-2.5 py-1 rounded-full ${TYPE_STYLES[project.type] ?? 'bg-gray-100 text-[#424242]'}`}
-          >
-            {TYPE_LABELS[project.type] ?? project.type}
-          </span>
-          <span className="font-body text-xs text-gray-400">{period}</span>
-        </div>
-        <h3 className="font-heading text-base font-semibold text-black mb-1 leading-snug">
-          {project.title}
-        </h3>
-        <p className="font-body text-sm text-[#424242] mb-3 line-clamp-2">
-          {project.description}
-        </p>
-        <div className="flex flex-wrap gap-1">
-          {project.techStack.slice(0, 5).map((tag) => (
-            <TagBadge key={tag} label={tag} />
-          ))}
-          {project.techStack.length > 5 && (
-            <span className="font-body text-xs text-gray-400">
-              +{project.techStack.length - 5}
+    <Link href={`/projects/${project.slug}`} className="block h-full">
+      <div className="bg-white rounded-lg overflow-hidden border border-gray-200 hover:shadow-md transition-shadow cursor-pointer h-full flex flex-col">
+        <div className="aspect-video bg-neutral-100 flex items-center justify-center flex-shrink-0">
+          {project.thumbnailUrl ? (
+            <img
+              src={project.thumbnailUrl}
+              alt={project.title}
+              className="w-full h-full object-cover"
+            />
+          ) : (
+            <span className="font-heading text-4xl font-bold text-neutral-300">
+              {project.title[0]}
             </span>
           )}
         </div>
+        <div className="p-4 flex flex-col flex-1">
+          <div className="flex items-center justify-between mb-2">
+            <span
+              className={`font-body text-xs font-medium px-2.5 py-1 rounded-full ${TYPE_STYLES[project.type]}`}
+            >
+              {TYPE_LABELS[project.type]}
+            </span>
+            <span className="font-body text-xs text-gray-400">
+              {formatPeriod(project.startDate, project.endDate)}
+            </span>
+          </div>
+          <h3 className="font-heading text-base font-semibold text-black mb-1">{project.title}</h3>
+          <p className="font-body text-sm text-[#424242] line-clamp-2 mb-3 flex-1">
+            {project.description}
+          </p>
+          <div className="flex flex-wrap gap-1">
+            {project.techStack.slice(0, 5).map((tag) => (
+              <TagBadge key={tag} label={tag} />
+            ))}
+            {project.techStack.length > 5 && (
+              <span className="font-body text-xs text-gray-400">
+                +{project.techStack.length - 5}
+              </span>
+            )}
+          </div>
+        </div>
       </div>
-    </div>
+    </Link>
   );
 }

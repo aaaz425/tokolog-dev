@@ -1,0 +1,44 @@
+---
+title: Next.js 15 App Router 마이그레이션 후기
+date: 2025-07-02
+tags: [Next.js, React, 마이그레이션]
+summary: Vite + React 프로젝트를 Next.js 15 App Router로 마이그레이션하면서 배운 것들을 정리했습니다.
+---
+
+## 왜 마이그레이션을 했는가
+
+포트폴리오 사이트를 만들면서 블로그 기능이 필요해졌다. SSG로 MDX 파일을 렌더링하고, SEO를 챙기려면 Next.js가 최선이었다.
+
+## 주요 변경 사항
+
+### 1. 라우팅
+
+React Router에서 파일 기반 라우팅으로. `src/app/` 디렉토리 구조가 URL이 된다.
+
+```tsx
+// 기존: React Router
+<Route path="/projects/:id" element={<ProjectDetailPage />} />
+
+// 신규: Next.js App Router
+// src/app/projects/[slug]/page.tsx → /projects/todo-app
+```
+
+### 2. 데이터 페칭
+
+`useEffect` + `useState`에서 Server Component로. 컴포넌트 자체가 `async` 함수가 된다.
+
+```tsx
+export default async function ProjectPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const project = getProjectBySlug(slug);
+  // ...
+}
+```
+
+### 3. `params`는 이제 Promise
+
+Next.js 15부터 `params`와 `searchParams`가 Promise 타입으로 바뀌었다. `await params`로 받아야 한다.
+
+## 결론
+
+App Router는 처음엔 어색하지만 서버/클라이언트 경계를 명시하는 방식이 코드를 더 예측 가능하게 만든다. RSC를 이해하고 나면 데이터 페칭이 훨씬 직관적이다.
