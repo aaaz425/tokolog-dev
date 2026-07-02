@@ -9,5 +9,5 @@ test('프로젝트 상세 이동', async ({ page }) => {
   await page.goto('/projects');
   await page.getByText('Todo App').first().click();
   await expect(page).toHaveURL(/\/projects\/todo-app/);
-  await expect(page.getByRole('heading', { name: 'Todo App' })).toBeVisible();
+  await expect(page.getByRole('heading', { level: 1, name: 'Todo App' })).toBeVisible();
 });
