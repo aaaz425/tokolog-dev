@@ -2,7 +2,7 @@
 
 라이트모드 단일 기준. Tailwind CSS 유틸리티 클래스 기반으로 작성한다.
 슬레이트(slate) 뉴트럴 팔레트 + 은은한 블루 포인트 컬러 + Pretendard 폰트.
-카드는 애플 스타일 글래스모피즘(반투명 + backdrop-blur), 메인 배경에는 부드러운 그라디언트와 흐릿한 컬러 블롭을 깔아 글래스 효과가 드러나도록 한다.
+전체 UI는 플랫(flat)한 미니멀 스타일을 기본으로 하고, **애플 스타일 글래스모피즘(반투명 + backdrop-blur)은 프로젝트 상세 모달 하나에만** 적용해 그 순간을 특별하게 만든다. 배경에 그라디언트나 블러 블롭을 깔지 않는다 — 글래스 효과는 모달이 리스트 화면 위로 뜰 때 뒤에 깔리는 반투명 오버레이만으로 표현한다.
 
 ---
 
@@ -14,6 +14,7 @@
 |------|-------------|----------------|
 | Page 배경 (base) | `#F8FAFC` | `bg-slate-50` |
 | 서피스 (연한 배경, 태그 bg) | `#F1F5F9` | `bg-slate-100` |
+| 카드 배경 | `#FFFFFF` | `bg-white` |
 | 카드 테두리 / 구분선 | `#E2E8F0` | `border-slate-200` |
 | 비활성 보더 | `#CBD5E1` | `border-slate-300` |
 | Muted 텍스트 / 날짜 | `#94A3B8` | `text-slate-400` |
@@ -26,25 +27,21 @@
 | 역할 | 정확한 색상값 | Tailwind 클래스 |
 |------|-------------|----------------|
 | 소프트 틴트 (hover bg) | `#EFF6FF` | `bg-accent-50` |
-| 블롭 라이트 틴트 | `#BFDBFE` | `bg-accent-200` |
-| 블롭 미드 틴트 | `#93C5FD` | `bg-accent-300` |
 | 포인트 기본 (링크 hover, 포커스, personal 배지) | `#3B82F6` | `bg-accent-500` / `text-accent-500` |
 | 포인트 강조 (Primary 버튼) | `#2563EB` | `bg-accent-600` |
 
 > accent 컬러는 화면당 1~2곳으로 사용을 제한한다 ("은은함"은 채도가 아니라 사용 빈도로 지킨다).
 
-### 글래스모피즘 서피스
+### 글래스모피즘 서피스 — **프로젝트 상세 모달 전용**
+
+다른 어떤 컴포넌트(리스트 카드, Sidebar, TopNav, 일반 Modal)에도 `backdrop-blur`를 쓰지 않는다. 오직 프로젝트 카드를 클릭했을 때 뜨는 상세 모달에만 적용한다.
 
 | 역할 | Tailwind 클래스 |
 |------|----------------|
-| 카드 배경 (반투명) | `bg-white/55` (hover 시 `bg-white/70`) |
-| 카드 테두리 | `border-white/50` |
-| 카드 blur 강도 | `backdrop-blur-xl` |
-| Sidebar 배경 | `bg-slate-900/85 backdrop-blur-xl` |
-| Sidebar 테두리 | `border-white/10` |
-| Mobile TopNav 배경 | `bg-white/80 backdrop-blur-xl` |
-| Modal 패널 배경 | `bg-white/90 backdrop-blur-xl` |
-| Modal 오버레이 | `bg-slate-950/50` |
+| 모달 오버레이 (배경 딤) | `bg-slate-950/50` |
+| 모달 카드 배경 (반투명) | `bg-white/80 backdrop-blur-xl` |
+| 모달 카드 테두리 | `border-white/60` |
+| 모달 카드 그림자 | `shadow-xl` |
 
 ### 타입 배지 색상
 
@@ -154,24 +151,24 @@ const pretendard = localFont({
 ┌──────────┬──────────────────────────────┐
 │ Sidebar  │  Main Content                │
 │  220px   │  flex-1, px-8, py-6          │
-│  글래스   │  bg-slate-50 + 그라디언트/블롭 │
+│  솔리드   │  bg-slate-50 (플랫)           │
 └──────────┴──────────────────────────────┘
 ```
-- 사이드바: `w-[220px] min-h-screen bg-slate-900/85 backdrop-blur-xl border-r border-white/10 fixed`
+- 사이드바: `w-[220px] min-h-screen bg-slate-900 border-r border-slate-800 fixed`
 - 메인: `ml-[220px] min-h-screen bg-slate-50 px-8 py-6`
 - 카드 그리드: `grid grid-cols-3 gap-5`
 
 ### 모바일 레이아웃 (< 1024px)
 ```
 ┌──────────────────────────────┐
-│  Top Nav Bar (glass)         │
+│  Top Nav Bar (solid)         │
 ├──────────────────────────────┤
 │  페이지 제목 + 부제           │
 │  액션 버튼 행 (flex gap-3)   │
 │  카드 목록 (1열)              │
 └──────────────────────────────┘
 ```
-- 상단 네비: `flex items-center justify-between px-4 h-14 bg-white/80 backdrop-blur-xl border-b border-slate-200/60`
+- 상단 네비: `flex items-center justify-between px-4 h-14 bg-white border-b border-slate-200`
 - 메인: `px-4 py-6 bg-slate-50`
 - 카드 그리드: `grid grid-cols-1 gap-4`
 
@@ -181,27 +178,6 @@ const pretendard = localFont({
 | 모바일 `< 640px` | 1열 |
 | 태블릿 `sm: 640px~` | 2열 |
 | 데스크톱 `lg: 1024px~` | 3열 + 사이드바 |
-
-### 배경 그라디언트 + 블롭
-
-글래스모피즘 카드가 반투명 효과를 드러내려면 메인 배경이 플랫하지 않아야 한다. 루트 레이아웃(`src/app/layout.tsx`)에 고정된 그라디언트 + 블러 블롭 레이어를 깐다.
-
-```tsx
-<div className="relative min-h-screen bg-slate-50 flex overflow-x-hidden">
-  <div aria-hidden className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
-    <div className="absolute inset-0 bg-linear-to-br from-slate-50 via-white to-slate-100" />
-    <div className="absolute top-[-120px] left-[280px] w-[520px] h-[520px] rounded-full bg-accent-300/55 blur-[100px]" />
-    <div className="absolute top-[220px] right-[80px] w-[560px] h-[560px] rounded-full bg-accent-200/50 blur-[110px]" />
-    <div className="absolute bottom-[-140px] left-[420px] w-[460px] h-[460px] rounded-full bg-slate-300/45 blur-[100px]" />
-  </div>
-  <Navigation />
-  <main className="relative flex-1 lg:ml-[220px] pt-14 lg:pt-0 min-h-screen">
-    <div className="px-6 py-8 lg:px-10">{children}</div>
-  </main>
-</div>
-```
-
-블롭은 정적(애니메이션 없음)이며 `pointer-events-none`으로 클릭을 방해하지 않는다. `-z-10`으로 항상 콘텐츠 뒤에 고정된다.
 
 ---
 
@@ -223,10 +199,12 @@ const pretendard = localFont({
 
 모바일에서 버튼 두 개는 `flex gap-3`으로 나란히 배치.
 
-### Card (Glassmorphism)
+### Card (List — Flat)
+
+리스트에 나열되는 카드(ProjectCard, BlogCard 등)는 항상 플랫하다. 글래스 효과를 쓰지 않는다.
 
 ```tsx
-<div className="bg-white/55 backdrop-blur-xl rounded-lg overflow-hidden border border-white/50 shadow-sm hover:shadow-lg hover:bg-white/70 transition-all cursor-pointer h-full flex flex-col">
+<div className="bg-white rounded-lg overflow-hidden border border-slate-200 shadow-sm hover:shadow-md transition-shadow cursor-pointer h-full flex flex-col">
   {/* 썸네일 */}
   <div className="aspect-video bg-slate-100 overflow-hidden">
     <img src={...} className="w-full h-full object-cover" />
@@ -260,8 +238,6 @@ const typeStyles = {
 
 ### Tech Stack Tag
 
-플랫 컬러 유지 (blur 중첩 금지).
-
 ```tsx
 <span className="font-body text-xs font-medium bg-slate-100 text-slate-600 px-2 py-0.5 rounded">
   {tag}
@@ -278,12 +254,66 @@ const typeStyles = {
 <select className="w-full border border-slate-200 rounded-md px-3 py-2 font-body text-sm text-slate-800 focus:outline-none focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20" />
 ```
 
-### Modal (Glassmorphism)
+### 프로젝트 상세 모달 (Glassmorphism — 유일한 글래스 적용처)
+
+프로젝트 카드를 클릭하면 상세 페이지로 이동하는 대신, 리스트 위에 글래스 카드가 모달로 뜬다. Next.js **Intercepting Routes**로 구현해 클릭 시엔 모달, 직접 URL 접속·새로고침 시엔 동일한 내용의 풀페이지가 열리도록 분기한다.
+
+```
+src/app/projects/
+├── layout.tsx              # {children} + {modal} 슬롯 렌더
+├── page.tsx                 # 목록 (플랫 카드)
+├── [slug]/page.tsx          # 풀페이지 상세 (플랫 카드, 직접 접속/새로고침용)
+├── [slug]/demo/page.tsx     # 데모 (변경 없음)
+└── @modal/
+    ├── default.tsx          # 병렬 슬롯 기본값 — null 반환
+    └── (.)[slug]/page.tsx   # 인터셉트된 모달 (글래스 카드)
+```
+
+풀페이지(`[slug]/page.tsx`)와 모달(`@modal/(.)[slug]/page.tsx`)은 공통 컴포넌트 `src/components/ProjectDetailCard.tsx`를 `glass` prop으로 분기해서 공유한다 — 마크업 중복을 피한다.
+
+```tsx
+// src/components/ProjectDetailCard.tsx
+interface ProjectDetailCardProps {
+  project: Project;
+  glass?: boolean;
+}
+
+export function ProjectDetailCard({ project, glass = false }: ProjectDetailCardProps) {
+  const cardStyle = glass
+    ? 'bg-white/80 backdrop-blur-xl border border-white/60 shadow-xl'
+    : 'bg-white border border-slate-200 shadow-sm';
+
+  return <div className={`rounded-lg overflow-hidden ${cardStyle}`}>{/* 본문 */}</div>;
+}
+```
+
+```tsx
+// src/components/ProjectModal.tsx ('use client')
+<div className="fixed inset-0 bg-slate-950/50 flex items-center justify-center z-50 p-4" onClick={close}>
+  <div className="relative w-full max-w-2xl max-h-[85vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+    <button
+      onClick={close}
+      aria-label="닫기"
+      className="absolute -top-3 -right-3 z-10 flex items-center justify-center w-9 h-9 rounded-full bg-white shadow-md text-slate-600 hover:text-slate-800 transition-colors cursor-pointer"
+    >
+      <X size={18} />
+    </button>
+    <ProjectDetailCard project={project} glass />
+  </div>
+</div>
+```
+
+- 닫기: 오버레이 클릭, X 버튼, `Escape` 키 모두 `router.back()`으로 처리 (모달 콘텐츠 클릭은 `stopPropagation`으로 닫히지 않게 막는다).
+- 모달 안의 "Demo" 버튼은 `/projects/[slug]/demo`로 이동하며, 이 라우트는 인터셉트 대상이 아니라 평소처럼 풀페이지로 열린다.
+
+### 일반 Form Modal (Flat)
+
+프로젝트 상세 모달 외의 다른 모달(폼 등)은 플랫로 유지한다.
 
 ```tsx
 <div className="fixed inset-0 bg-slate-950/50 flex items-center justify-center z-50 p-4">
-  <div className="bg-white/90 backdrop-blur-xl rounded-lg w-full max-w-md shadow-xl border border-white/60">
-    <div className="flex items-center justify-between px-5 py-4 border-b border-slate-200/60">
+  <div className="bg-white rounded-lg w-full max-w-md shadow-xl border border-slate-200">
+    <div className="flex items-center justify-between px-5 py-4 border-b border-slate-200">
       <h2 className="font-heading text-base font-semibold text-slate-800">{title}</h2>
       <button className="text-slate-400 hover:text-slate-800 transition-colors cursor-pointer"><X size={18} strokeWidth={2} /></button>
     </div>
@@ -292,10 +322,10 @@ const typeStyles = {
 </div>
 ```
 
-### Sidebar (PC 전용, `hidden lg:flex`, Glassmorphism)
+### Sidebar (PC 전용, `hidden lg:flex`, Flat)
 
 ```tsx
-<aside className="fixed left-0 top-0 w-[220px] min-h-screen bg-slate-900/85 backdrop-blur-xl border-r border-white/10 flex flex-col px-4 py-5">
+<aside className="fixed left-0 top-0 w-[220px] min-h-screen bg-slate-900 border-r border-slate-800 flex flex-col px-4 py-5">
   <div className="flex items-center gap-2 mb-8">
     <div className="w-7 h-7 rounded-md bg-accent-500 flex items-center justify-center text-white text-xs font-bold font-heading">T</div>
     <span className="font-heading text-white text-base font-bold">tokolog</span>
@@ -313,10 +343,10 @@ const typeStyles = {
 </aside>
 ```
 
-### Top Nav Bar (모바일 전용, `lg:hidden`, Glassmorphism)
+### Top Nav Bar (모바일 전용, `lg:hidden`, Flat)
 
 ```tsx
-<header className="flex items-center justify-between px-4 h-14 bg-white/80 backdrop-blur-xl border-b border-slate-200/60 lg:hidden">
+<header className="flex items-center justify-between px-4 h-14 bg-white border-b border-slate-200 lg:hidden">
   <span className="font-heading text-base font-bold text-slate-800">tokolog</span>
   <div className="flex items-center gap-3 text-slate-600">
     {/* 검색, 알림, 설정, 아바타 아이콘 */}
@@ -330,7 +360,7 @@ const typeStyles = {
 
 | 상태 | 처리 방식 |
 |------|----------|
-| 카드 hover | `hover:shadow-lg hover:bg-white/70 transition-all` |
+| 카드 hover (리스트, 플랫) | `hover:shadow-md transition-shadow` |
 | 버튼 hover (primary) | `hover:bg-accent-500` |
 | 버튼 hover (secondary) | `hover:bg-slate-100` |
 | 사이드바 메뉴 hover | `hover:text-white hover:bg-white/5` |
@@ -341,7 +371,7 @@ const typeStyles = {
 
 `<button>`은 Tailwind Preflight에 의해 기본값이 `cursor: default`다. onClick이 있는 모든 `<button>`, `<a>`/`<Link>`, 클릭 가능한 `<div>`에 **반드시 `cursor-pointer`를 명시적으로 추가**한다. 리뷰 시 `grep -rn "<button" src | grep -v cursor-pointer`로 누락 여부를 검증한다.
 
-모든 전환에 `transition-colors` 또는 `transition-all` 적용.
+모든 전환에 `transition-colors` 또는 `transition-shadow` 적용.
 
 ---
 
@@ -362,6 +392,7 @@ const typeStyles = {
 | 앞으로 / CTA | `ArrowRight` |
 | 추가 | `Plus` |
 | 편집 | `Pencil` |
+| 데모 실행 | `Play` |
 
 ---
 
@@ -371,10 +402,11 @@ const typeStyles = {
 - Headline/Body/Label 모두 `font-heading`/`font-body` (Pretendard) 사용, 위계는 font-weight로만 구분
 - 뉴트럴은 `slate-*`, 포인트는 `accent-*`만 사용
 - accent 컬러는 화면(뷰포트)당 1~2곳으로 제한해 은은함 유지
-- `backdrop-blur`는 카드·Sidebar·Modal·Mobile TopNav에만 적용, 버튼·배지·태그는 플랫 컬러 유지 (blur 중첩 금지)
+- `backdrop-blur`는 **프로젝트 상세 모달에만** 적용, 그 외 모든 컴포넌트(리스트 카드·Sidebar·TopNav·일반 폼 모달)는 플랫 유지
 - 버튼은 `rounded-full`, 카드/모달은 `rounded-lg`, 입력은 `rounded-md`
 - 간격은 4px 단위 기준 (`gap-2`, `gap-4`, `gap-5`, `p-4`, `px-6`)
 - 호버·클릭 가능한 모든 요소에 `cursor-pointer` 명시
+- 리스트↔상세 화면 전환에 모달이 필요하면 Next.js Intercepting Routes로 구현해 직접 URL 접속 시에도 동일 콘텐츠가 열리도록 한다
 
 **Don't**
 - `#000000` / `#424242` 등 구 팔레트 하드코딩 재도입 금지
@@ -382,5 +414,65 @@ const typeStyles = {
 - accent 컬러 남용 금지 (버튼마다 파란색 도배 금지)
 - `rounded-xl` / `rounded-2xl` 신규 사용 금지 (라운드니스 1 기준 위반)
 - Pretendard 외 다른 폰트 추가 금지
-- 카드 내부 요소(태그 등)에 blur 중첩 금지
+- 프로젝트 상세 모달 외의 곳에 `backdrop-blur` 확산 금지 (배경에 그라디언트/블롭을 깔아 글래스 효과를 연출하지 않는다)
 - 사이드바와 Top Nav 동시 렌더링 금지 (`lg:hidden` / `hidden lg:flex` 분기 필수)
+
+---
+
+## 10. Motion
+
+`framer-motion`을 사용한다. 모든 모션은 **interaction-triggered**(hover/tap/click) 또는 **mount-once**(진입 시 1회)만 허용하고, 반복/루프 애니메이션(`repeat`, `repeatType`, 무한 keyframe)은 프로젝트 전체에서 금지한다. "은은함"은 진폭이 아니라 재생 빈도로 지킨다.
+
+### 공유 모듈
+
+| 목적 | 위치 |
+|------|------|
+| transition/variants 상수 | `src/lib/motion.ts` |
+| `prefers-reduced-motion` 분기 훅 | `src/hooks/useMotionSafe.ts` |
+| 카드 hover + 그리드 진입 겸용 wrapper | `src/components/motion/MotionCardSurface.tsx` |
+| pill 버튼 hover/tap wrapper | `src/components/motion/MotionPill.tsx` |
+
+새 모션 값이 필요하면 컴포넌트에 인라인으로 쓰지 않고 `src/lib/motion.ts`에 상수로 먼저 추가한다.
+
+### 패턴 1 — 활성 인디케이터 (Shared Layout Animation)
+
+메뉴/탭의 활성 표시는 색상 즉시 스위칭 대신 `layoutId` 기반 공유 레이아웃 애니메이션을 사용한다. 인디케이터는 활성 항목 안에서만 조건부 렌더링하고(`{isActive && <motion.div layoutId="..." />}`), 텍스트는 `relative z-10`으로 그 위에 얹는다.
+
+| 위치 | layoutId | 형태 |
+|------|----------|------|
+| PC 사이드바 | `sidebar-active-pill` | 배경 필 (`inset-0`) |
+| 모바일 TopNav | `topnav-active-underline` | 하단 밑줄 |
+| 프로젝트 필터 탭 | `project-filter-pill` | 배경 필 |
+| 블로그 태그 필터 | `blog-filter-pill` | 배경 필 |
+
+사이드바/TopNav처럼 `lg:hidden`·`hidden lg:flex`로 CSS 상 숨김 처리될 뿐 DOM에는 동시에 존재하는 두 트리는 **반드시 서로 다른 `layoutId`**를 쓴다.
+
+전환 프리셋: `PILL_TRANSITION = { type: 'spring', stiffness: 500, damping: 40 }` — 오버슈트가 거의 없는 스냅감.
+
+### 패턴 2 — 카드 hover
+
+리스트 카드는 `MotionCardSurface`로 감싸 `whileHover={{ y: -4 }}`를 적용한다. 기존 `hover:shadow-md transition-shadow` (Tailwind, box-shadow 담당)는 그대로 병행 — transform과 box-shadow는 서로 다른 속성이라 충돌하지 않는다. 전환 프리셋: `CARD_HOVER_TRANSITION = { type: 'spring', stiffness: 400, damping: 30 }`.
+
+### 패턴 3 — 그리드 진입 (Stagger, mount-once)
+
+`ProjectsGrid`/`BlogGrid`의 그리드 컨테이너에 `variants={GRID_CONTAINER_VARIANTS} initial="hidden" animate="show"`를 걸고, 개별 카드(`MotionCardSurface`)는 `variants={GRID_ITEM_VARIANTS}`만 지정해 부모 상태를 상속받는다. 필터 전환 시 그리드 자체를 리마운트(`key={filter}` 등)하지 않는다 — 기존에 보이던 카드는 리플레이되지 않고, 필터링으로 새로 나타나는 카드만 자연스럽게 mount 애니메이션을 탄다.
+
+### 패턴 4 — 버튼 hover/tap
+
+Pill 모양 CTA/액션 버튼(랜딩 CTA, `ProjectDetailCard`의 Demo/GitHub/배포)은 `MotionPill`로 감싸 `whileHover={{ scale: 1.03 }}` / `whileTap={{ scale: 0.97 }}`를 적용한다. `Link`/`<a>`는 그대로 두고 내부 `motion.span`만 시각/모션을 담당한다.
+
+### 접근성
+
+모든 모션 컴포넌트는 `useMotionSafe()`로 `prefers-reduced-motion`을 확인하고, `false`(reduced 선호)일 때는 애니메이션 props를 생략한다. 단, **인디케이터 자체(배경/밑줄)는 reduced-motion에서도 정적으로 표시**한다 — 정보 자체가 사라지면 안 된다.
+
+### Do / Don't (Motion)
+
+**Do**
+- `layoutId` 인디케이터는 활성 항목 안에서만 조건부 렌더링
+- 모든 모션 값은 `src/lib/motion.ts`에서 가져다 쓴다
+- `useMotionSafe()`로 reduced-motion 분기
+
+**Don't**
+- `repeat`/`repeatType`/무한 keyframe 애니메이션 금지
+- 스크롤 트리거 parallax, 배경 블롭/파티클, 텍스트 typewriter 금지 (9. Do/Don't의 글래스모피즘 제한과 같은 이유 — 장식 남용 금지)
+- 같은 화면에서 동시에 보이는 두 요소가 같은 `layoutId`를 갖지 않도록 한다

@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { MotionPill } from '@/components/motion/MotionPill';
 
 export default function LandingPage() {
   return (
@@ -24,17 +25,15 @@ export default function LandingPage() {
         새로운 것을 배우고 만드는 걸 좋아합니다.
       </p>
       <div className="flex items-center gap-3">
-        <Link
-          href="/projects"
-          className="flex items-center gap-1.5 font-body text-sm font-medium bg-accent-600 text-white px-5 py-2.5 rounded-full hover:bg-accent-500 transition-colors cursor-pointer"
-        >
-          프로젝트 보기 <ArrowRight size={16} strokeWidth={2} />
+        <Link href="/projects">
+          <MotionPill className="flex items-center gap-1.5 font-body text-sm font-medium bg-accent-600 text-white px-5 py-2.5 rounded-full hover:bg-accent-500 transition-colors cursor-pointer">
+            프로젝트 보기 <ArrowRight size={16} strokeWidth={2} />
+          </MotionPill>
         </Link>
-        <Link
-          href="/blog"
-          className="flex items-center gap-1.5 font-body text-sm font-medium border border-slate-300 text-slate-700 px-5 py-2.5 rounded-full hover:bg-slate-100 transition-colors cursor-pointer"
-        >
-          블로그 보기
+        <Link href="/blog">
+          <MotionPill className="flex items-center gap-1.5 font-body text-sm font-medium border border-slate-300 text-slate-700 px-5 py-2.5 rounded-full hover:bg-slate-100 transition-colors cursor-pointer">
+            블로그 보기
+          </MotionPill>
         </Link>
       </div>
     </motion.div>

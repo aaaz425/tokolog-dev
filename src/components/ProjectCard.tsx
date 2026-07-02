@@ -1,11 +1,12 @@
 import Link from 'next/link';
 import { TagBadge } from '@/components/TagBadge';
+import { MotionCardSurface } from '@/components/motion/MotionCardSurface';
 import type { Project, ProjectType } from '@/types/project';
 
 const TYPE_STYLES: Record<ProjectType, string> = {
-  company: 'bg-slate-800 text-white',
-  team: 'bg-slate-500 text-white',
-  personal: 'bg-accent-500 text-white',
+  company: 'bg-slate-200 text-slate-700',
+  team: 'bg-slate-100 text-slate-600',
+  personal: 'bg-accent-50 text-accent-600',
 };
 
 const TYPE_LABELS: Record<ProjectType, string> = {
@@ -26,7 +27,7 @@ function formatPeriod(startDate: string, endDate?: string) {
 export function ProjectCard({ project }: ProjectCardProps) {
   return (
     <Link href={`/projects/${project.slug}`} className="block h-full">
-      <div className="bg-white/55 backdrop-blur-xl rounded-lg overflow-hidden border border-white/50 shadow-sm hover:shadow-lg hover:bg-white/70 transition-all cursor-pointer h-full flex flex-col">
+      <MotionCardSurface className="bg-white rounded-lg overflow-hidden border border-slate-200 shadow-sm hover:shadow-md transition-shadow cursor-pointer h-full flex flex-col">
         <div className="aspect-video bg-slate-100 flex items-center justify-center flex-shrink-0">
           {project.thumbnailUrl ? (
             <img
@@ -68,7 +69,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
             )}
           </div>
         </div>
-      </div>
+      </MotionCardSurface>
     </Link>
   );
 }

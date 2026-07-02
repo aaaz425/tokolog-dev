@@ -35,7 +35,7 @@ export function TodoAppDemo() {
 
   return (
     <div className="max-w-md mx-auto">
-      <div className="bg-white/55 backdrop-blur-xl rounded-lg border border-white/50 shadow-sm p-5">
+      <div className="bg-white rounded-lg border border-slate-200 shadow-sm p-5">
         <div className="flex items-center justify-between mb-4">
           <h2 className="font-heading text-lg font-semibold text-slate-800">오늘의 할 일</h2>
           {todos.length > 0 && (

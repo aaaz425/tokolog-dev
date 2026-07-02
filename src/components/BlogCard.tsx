@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { MotionCardSurface } from '@/components/motion/MotionCardSurface';
 import type { Post } from '@/types/post';
 
 interface BlogCardProps {
@@ -14,7 +15,7 @@ export function BlogCard({ post }: BlogCardProps) {
 
   return (
     <Link href={`/blog/${post.slug}`}>
-      <div className="bg-white/55 backdrop-blur-xl rounded-lg border border-white/50 shadow-sm p-5 hover:shadow-lg hover:bg-white/70 transition-all cursor-pointer">
+      <MotionCardSurface className="bg-white rounded-lg border border-slate-200 shadow-sm p-5 hover:shadow-md transition-shadow cursor-pointer">
         <div className="flex items-center gap-2 mb-3 flex-wrap">
           {post.tags.map((tag) => (
             <span
@@ -28,7 +29,7 @@ export function BlogCard({ post }: BlogCardProps) {
         <h2 className="font-heading text-base font-semibold text-slate-800 mb-2">{post.title}</h2>
         <p className="font-body text-sm text-slate-600 line-clamp-2 mb-3">{post.summary}</p>
         <span className="font-body text-xs text-slate-400">{formattedDate}</span>
-      </div>
+      </MotionCardSurface>
     </Link>
   );
 }
