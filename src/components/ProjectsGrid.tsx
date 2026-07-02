@@ -29,10 +29,10 @@ export function ProjectsGrid({ projects }: ProjectsGridProps) {
           <button
             key={tab.value}
             onClick={() => setFilter(tab.value)}
-            className={`font-body text-sm font-medium px-4 py-2 rounded-full transition-colors ${
+            className={`font-body text-sm font-medium px-4 py-2 rounded-full transition-colors cursor-pointer ${
               filter === tab.value
-                ? 'bg-black text-white'
-                : 'border border-black text-black hover:bg-neutral-100'
+                ? 'bg-accent-600 text-white'
+                : 'border border-slate-300 text-slate-700 hover:bg-slate-100'
             }`}
           >
             {tab.label}
@@ -40,7 +40,7 @@ export function ProjectsGrid({ projects }: ProjectsGridProps) {
         ))}
       </div>
       {visible.length === 0 ? (
-        <p className="font-body text-sm text-gray-400 py-16 text-center">
+        <p className="font-body text-sm text-slate-400 py-16 text-center">
           해당 유형의 프로젝트가 없습니다.
         </p>
       ) : (

@@ -1,6 +1,14 @@
 @import 'tailwindcss';
 
 @theme inline {
-  --font-heading: var(--font-manrope);
-  --font-body: var(--font-inter);
+  --font-heading: var(--font-pretendard);
+  --font-body: var(--font-pretendard);
+}
+
+@theme {
+  --color-accent-50: #eff6ff;
+  --color-accent-200: #bfdbfe;
+  --color-accent-300: #93c5fd;
+  --color-accent-500: #3b82f6;
+  --color-accent-600: #2563eb;
 }

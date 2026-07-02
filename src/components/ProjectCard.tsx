@@ -3,9 +3,9 @@ import { TagBadge } from '@/components/TagBadge';
 import type { Project, ProjectType } from '@/types/project';
 
 const TYPE_STYLES: Record<ProjectType, string> = {
-  company: 'bg-black text-white',
-  team: 'bg-[#424242] text-white',
-  personal: 'bg-blue-600 text-white',
+  company: 'bg-slate-800 text-white',
+  team: 'bg-slate-500 text-white',
+  personal: 'bg-accent-500 text-white',
 };
 
 const TYPE_LABELS: Record<ProjectType, string> = {
@@ -26,8 +26,8 @@ function formatPeriod(startDate: string, endDate?: string) {
 export function ProjectCard({ project }: ProjectCardProps) {
   return (
     <Link href={`/projects/${project.slug}`} className="block h-full">
-      <div className="bg-white rounded-lg overflow-hidden border border-gray-200 hover:shadow-md transition-shadow cursor-pointer h-full flex flex-col">
-        <div className="aspect-video bg-neutral-100 flex items-center justify-center flex-shrink-0">
+      <div className="bg-white/55 backdrop-blur-xl rounded-lg overflow-hidden border border-white/50 shadow-sm hover:shadow-lg hover:bg-white/70 transition-all cursor-pointer h-full flex flex-col">
+        <div className="aspect-video bg-slate-100 flex items-center justify-center flex-shrink-0">
           {project.thumbnailUrl ? (
             <img
               src={project.thumbnailUrl}
@@ -35,7 +35,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
               className="w-full h-full object-cover"
             />
           ) : (
-            <span className="font-heading text-4xl font-bold text-neutral-300">
+            <span className="font-heading text-4xl font-bold text-slate-300">
               {project.title[0]}
             </span>
           )}
@@ -47,12 +47,14 @@ export function ProjectCard({ project }: ProjectCardProps) {
             >
               {TYPE_LABELS[project.type]}
             </span>
-            <span className="font-body text-xs text-gray-400">
+            <span className="font-body text-xs text-slate-400">
               {formatPeriod(project.startDate, project.endDate)}
             </span>
           </div>
-          <h3 className="font-heading text-base font-semibold text-black mb-1">{project.title}</h3>
-          <p className="font-body text-sm text-[#424242] line-clamp-2 mb-3 flex-1">
+          <h3 className="font-heading text-base font-semibold text-slate-800 mb-1">
+            {project.title}
+          </h3>
+          <p className="font-body text-sm text-slate-600 line-clamp-2 mb-3 flex-1">
             {project.description}
           </p>
           <div className="flex flex-wrap gap-1">
@@ -60,7 +62,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
               <TagBadge key={tag} label={tag} />
             ))}
             {project.techStack.length > 5 && (
-              <span className="font-body text-xs text-gray-400">
+              <span className="font-body text-xs text-slate-400">
                 +{project.techStack.length - 5}
               </span>
             )}

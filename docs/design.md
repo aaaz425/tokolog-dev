@@ -1,35 +1,65 @@
 # tokolog Design System
 
-라이트모드 단일 기준. Tailwind CSS 유틸리티 클래스 기반으로 작성한다.  
-시드 컬러 `#121212` 기반의 모노크롬 팔레트 + Manrope / Inter 폰트 조합.
+라이트모드 단일 기준. Tailwind CSS 유틸리티 클래스 기반으로 작성한다.
+슬레이트(slate) 뉴트럴 팔레트 + 은은한 블루 포인트 컬러 + Pretendard 폰트.
+카드는 애플 스타일 글래스모피즘(반투명 + backdrop-blur), 메인 배경에는 부드러운 그라디언트와 흐릿한 컬러 블롭을 깔아 글래스 효과가 드러나도록 한다.
 
 ---
 
 ## 1. Color Palette
 
+### 뉴트럴 — Tailwind 기본 `slate` 스케일 (별도 토큰 정의 불필요)
+
 | 역할 | 정확한 색상값 | Tailwind 클래스 |
 |------|-------------|----------------|
-| **Primary** — 주요 액션, 강조, 핵심 인터랙티브 | `#000000` | `bg-black` / `text-black` |
-| **Secondary** — 보조 UI, 세컨더리 버튼, 은은한 액센트 | `#424242` | `bg-[#424242]` / `text-[#424242]` |
-| **Neutral** — 배경, 서피스 | `#F5F5F5` | `bg-neutral-100` |
-| 카드 배경 | `#FFFFFF` | `bg-white` |
-| Sidebar 배경 (PC) | `#000000` | `bg-black` |
-| Primary 텍스트 | `#000000` | `text-black` |
-| Secondary 텍스트 | `#424242` | `text-[#424242]` |
-| Muted 텍스트 / 날짜 | `#9CA3AF` | `text-gray-400` |
-| 카드 테두리 | `#E5E7EB` | `border-gray-200` |
-| Primary 버튼 배경 | `#000000` | `bg-black` |
-| Primary 버튼 텍스트 | `#FFFFFF` | `text-white` |
-| **Error / Destructive** — 폼 유효성 에러 텍스트 | `#EF4444` | `text-red-500` |
-| Error 보더 | `#EF4444` | `border-red-400` |
+| Page 배경 (base) | `#F8FAFC` | `bg-slate-50` |
+| 서피스 (연한 배경, 태그 bg) | `#F1F5F9` | `bg-slate-100` |
+| 카드 테두리 / 구분선 | `#E2E8F0` | `border-slate-200` |
+| 비활성 보더 | `#CBD5E1` | `border-slate-300` |
+| Muted 텍스트 / 날짜 | `#94A3B8` | `text-slate-400` |
+| Secondary 텍스트 (설명/부제) | `#475569` | `text-slate-600` |
+| Primary 텍스트 (제목) | `#1E293B` | `text-slate-800` |
+| Sidebar 배경 (PC) | `#0F172A` | `bg-slate-900` |
+
+### 포인트 — `accent-*` (신규 `@theme` 토큰)
+
+| 역할 | 정확한 색상값 | Tailwind 클래스 |
+|------|-------------|----------------|
+| 소프트 틴트 (hover bg) | `#EFF6FF` | `bg-accent-50` |
+| 블롭 라이트 틴트 | `#BFDBFE` | `bg-accent-200` |
+| 블롭 미드 틴트 | `#93C5FD` | `bg-accent-300` |
+| 포인트 기본 (링크 hover, 포커스, personal 배지) | `#3B82F6` | `bg-accent-500` / `text-accent-500` |
+| 포인트 강조 (Primary 버튼) | `#2563EB` | `bg-accent-600` |
+
+> accent 컬러는 화면당 1~2곳으로 사용을 제한한다 ("은은함"은 채도가 아니라 사용 빈도로 지킨다).
+
+### 글래스모피즘 서피스
+
+| 역할 | Tailwind 클래스 |
+|------|----------------|
+| 카드 배경 (반투명) | `bg-white/55` (hover 시 `bg-white/70`) |
+| 카드 테두리 | `border-white/50` |
+| 카드 blur 강도 | `backdrop-blur-xl` |
+| Sidebar 배경 | `bg-slate-900/85 backdrop-blur-xl` |
+| Sidebar 테두리 | `border-white/10` |
+| Mobile TopNav 배경 | `bg-white/80 backdrop-blur-xl` |
+| Modal 패널 배경 | `bg-white/90 backdrop-blur-xl` |
+| Modal 오버레이 | `bg-slate-950/50` |
 
 ### 타입 배지 색상
 
 | 타입 | 배경 | Tailwind |
 |------|------|----------|
-| 회사 (company) | `#000000` | `bg-black text-white` |
-| 개인 (personal) | `#2563EB` | `bg-blue-600 text-white` |
-| 진행중 (ongoing) | `#059669` | `bg-emerald-600 text-white` |
+| 회사 (company) | `#1E293B` | `bg-slate-800 text-white` |
+| 팀 (team) | `#64748B` | `bg-slate-500 text-white` |
+| 개인 (personal) | `#3B82F6` | `bg-accent-500 text-white` |
+
+### Error / Destructive (변경 없음)
+
+| 역할 | 정확한 색상값 | Tailwind 클래스 |
+|------|-------------|----------------|
+| 폼 유효성 에러 텍스트 | `#EF4444` | `text-red-500` |
+| Error 보더 | `#EF4444` | `border-red-400` |
 
 ---
 
@@ -37,29 +67,36 @@
 
 ### 폰트 패밀리
 
-| 용도 | 폰트 | 특성 |
-|------|------|------|
-| **Headline** — 제목, 페이지 헤더 | **Manrope** | 모던·기하학적, 임팩트 강조 |
-| **Body** — 본문, 설명 | **Inter** | 가독성 우선, 모든 화면 크기 대응 |
-| **Label** — UI 요소, 태그, 배지 | **Inter** | Body와 통일 |
+단일 패밀리 **Pretendard** (한국어 최적화 변수 폰트, weight 45~920)를 사용한다. `font-heading`/`font-body` 유틸리티 이름은 유지하되 두 변수 모두 같은 Pretendard 폰트를 가리키며, 위계는 **font-weight로만** 구분한다.
 
-### index.css에 Google Fonts 추가
+### Pretendard 로드 (next/font/local)
 
-```css
-@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap');
-@import "tailwindcss";
+```bash
+npm install pretendard
 ```
 
-### tailwind.config 폰트 설정
+```tsx
+// src/app/layout.tsx
+import localFont from 'next/font/local';
 
-```ts
-theme: {
-  extend: {
-    fontFamily: {
-      heading: ['Manrope', 'sans-serif'],
-      body: ['Inter', 'sans-serif'],
-    },
-  },
+const pretendard = localFont({
+  src: '../../node_modules/pretendard/dist/web/variable/woff2/PretendardVariable.woff2',
+  variable: '--font-pretendard',
+  display: 'swap',
+  weight: '45 920',
+});
+
+// <html lang="ko" className={pretendard.variable}>
+```
+
+### globals.css 폰트 매핑
+
+```css
+@import 'tailwindcss';
+
+@theme inline {
+  --font-heading: var(--font-pretendard);
+  --font-body: var(--font-pretendard);
 }
 ```
 
@@ -70,18 +107,18 @@ theme: {
 | 페이지 제목 (Projects) | 36px | 700 | `font-heading text-4xl font-bold` |
 | 카드 제목 | 16px | 600 | `font-heading text-base font-semibold` |
 | 사이드바 로고 | 16px | 700 | `font-heading text-base font-bold` |
-| 페이지 부제 | 14px | 400 | `font-body text-sm text-[#424242]` |
-| 카드 설명 | 14px | 400 | `font-body text-sm text-[#424242]` |
+| 페이지 부제 | 14px | 400 | `font-body text-sm text-slate-600` |
+| 카드 설명 | 14px | 400 | `font-body text-sm text-slate-600` |
 | 사이드바 메뉴 | 14px | 500 | `font-body text-sm font-medium` |
 | 기술 태그 | 12px | 500 | `font-body text-xs font-medium` |
-| 날짜 | 12px | 400 | `font-body text-xs text-gray-400` |
+| 날짜 | 12px | 400 | `font-body text-xs text-slate-400` |
 | 배지 | 12px | 500 | `font-body text-xs font-medium` |
 
 ---
 
 ## 3. Spacing
 
-스페이싱 레벨 **2 (일반)** — 빽빽하거나 과하지 않은 균형 잡힌 여백.
+스페이싱 레벨 **2 (일반)** — 빽빽하거나 과하지 않은 균형 잡힌 여백. (기존 기준 유지, 변경 없음)
 
 | 용도 | 값 |
 |------|----|
@@ -96,11 +133,11 @@ theme: {
 
 ## 4. 형태 (Shape / Radius)
 
-라운드니스 레벨 **1 (미세한 둥근 처리)** — 과하지 않은 은은한 처리.
+라운드니스 레벨 **1 (미세한 둥근 처리)** — 과하지 않은 은은한 처리. (기존 기준 유지, 변경 없음)
 
 | 컴포넌트 | Radius | Tailwind |
 |----------|--------|----------|
-| 버튼 (pill 형태, 디자인 이미지 기준) | 9999px | `rounded-full` |
+| 버튼 (pill 형태) | 9999px | `rounded-full` |
 | 카드 | 8px | `rounded-lg` |
 | 모달 패널 | 8px | `rounded-lg` |
 | 입력 필드 / Select | 6px | `rounded-md` |
@@ -117,25 +154,25 @@ theme: {
 ┌──────────┬──────────────────────────────┐
 │ Sidebar  │  Main Content                │
 │  220px   │  flex-1, px-8, py-6          │
-│  고정     │  bg-neutral-100              │
+│  글래스   │  bg-slate-50 + 그라디언트/블롭 │
 └──────────┴──────────────────────────────┘
 ```
-- 사이드바: `w-[220px] min-h-screen bg-black fixed`
-- 메인: `ml-[220px] min-h-screen bg-neutral-100 px-8 py-6`
+- 사이드바: `w-[220px] min-h-screen bg-slate-900/85 backdrop-blur-xl border-r border-white/10 fixed`
+- 메인: `ml-[220px] min-h-screen bg-slate-50 px-8 py-6`
 - 카드 그리드: `grid grid-cols-3 gap-5`
 
 ### 모바일 레이아웃 (< 1024px)
 ```
 ┌──────────────────────────────┐
-│  Top Nav Bar (white)         │
+│  Top Nav Bar (glass)         │
 ├──────────────────────────────┤
 │  페이지 제목 + 부제           │
 │  액션 버튼 행 (flex gap-3)   │
 │  카드 목록 (1열)              │
 └──────────────────────────────┘
 ```
-- 상단 네비: `flex items-center justify-between px-4 h-14 bg-white border-b border-gray-200`
-- 메인: `px-4 py-6 bg-neutral-100`
+- 상단 네비: `flex items-center justify-between px-4 h-14 bg-white/80 backdrop-blur-xl border-b border-slate-200/60`
+- 메인: `px-4 py-6 bg-slate-50`
 - 카드 그리드: `grid grid-cols-1 gap-4`
 
 ### Breakpoint
@@ -145,6 +182,27 @@ theme: {
 | 태블릿 `sm: 640px~` | 2열 |
 | 데스크톱 `lg: 1024px~` | 3열 + 사이드바 |
 
+### 배경 그라디언트 + 블롭
+
+글래스모피즘 카드가 반투명 효과를 드러내려면 메인 배경이 플랫하지 않아야 한다. 루트 레이아웃(`src/app/layout.tsx`)에 고정된 그라디언트 + 블러 블롭 레이어를 깐다.
+
+```tsx
+<div className="relative min-h-screen bg-slate-50 flex overflow-x-hidden">
+  <div aria-hidden className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
+    <div className="absolute inset-0 bg-linear-to-br from-slate-50 via-white to-slate-100" />
+    <div className="absolute top-[-120px] left-[280px] w-[520px] h-[520px] rounded-full bg-accent-300/55 blur-[100px]" />
+    <div className="absolute top-[220px] right-[80px] w-[560px] h-[560px] rounded-full bg-accent-200/50 blur-[110px]" />
+    <div className="absolute bottom-[-140px] left-[420px] w-[460px] h-[460px] rounded-full bg-slate-300/45 blur-[100px]" />
+  </div>
+  <Navigation />
+  <main className="relative flex-1 lg:ml-[220px] pt-14 lg:pt-0 min-h-screen">
+    <div className="px-6 py-8 lg:px-10">{children}</div>
+  </main>
+</div>
+```
+
+블롭은 정적(애니메이션 없음)이며 `pointer-events-none`으로 클릭을 방해하지 않는다. `-z-10`으로 항상 콘텐츠 뒤에 고정된다.
+
 ---
 
 ## 6. Components
@@ -153,34 +211,34 @@ theme: {
 
 ```tsx
 // Primary
-<button className="flex items-center gap-2 bg-black text-white font-body text-sm font-medium px-4 py-2 rounded-full hover:bg-[#424242] transition-colors">
+<button className="flex items-center gap-2 bg-accent-600 text-white font-body text-sm font-medium px-4 py-2 rounded-full hover:bg-accent-500 transition-colors cursor-pointer">
   + New Project
 </button>
 
 // Secondary (outlined)
-<button className="flex items-center gap-2 border border-black text-black font-body text-sm font-medium px-4 py-2 rounded-full hover:bg-neutral-100 transition-colors">
+<button className="flex items-center gap-2 border border-slate-300 text-slate-700 font-body text-sm font-medium px-4 py-2 rounded-full hover:bg-slate-100 transition-colors cursor-pointer">
   Filter
 </button>
 ```
 
 모바일에서 버튼 두 개는 `flex gap-3`으로 나란히 배치.
 
-### Card
+### Card (Glassmorphism)
 
 ```tsx
-<div className="bg-white rounded-lg overflow-hidden border border-gray-200 hover:shadow-md transition-shadow cursor-pointer">
+<div className="bg-white/55 backdrop-blur-xl rounded-lg overflow-hidden border border-white/50 shadow-sm hover:shadow-lg hover:bg-white/70 transition-all cursor-pointer h-full flex flex-col">
   {/* 썸네일 */}
-  <div className="aspect-video bg-gray-100 overflow-hidden">
+  <div className="aspect-video bg-slate-100 overflow-hidden">
     <img src={...} className="w-full h-full object-cover" />
   </div>
   {/* 콘텐츠 */}
   <div className="p-4">
     <div className="flex items-center justify-between mb-2">
       <TypeBadge type={project.type} />
-      <span className="font-body text-xs text-gray-400">{period}</span>
+      <span className="font-body text-xs text-slate-400">{period}</span>
     </div>
-    <h3 className="font-heading text-base font-semibold text-black mb-1">{title}</h3>
-    <p className="font-body text-sm text-[#424242] line-clamp-2 mb-3">{description}</p>
+    <h3 className="font-heading text-base font-semibold text-slate-800 mb-1">{title}</h3>
+    <p className="font-body text-sm text-slate-600 line-clamp-2 mb-3">{description}</p>
     <div className="flex flex-wrap gap-1">{/* 기술 태그 */}</div>
   </div>
 </div>
@@ -190,9 +248,9 @@ theme: {
 
 ```tsx
 const typeStyles = {
-  company:  'bg-black text-white',
-  personal: 'bg-blue-600 text-white',
-  ongoing:  'bg-emerald-600 text-white',
+  company:  'bg-slate-800 text-white',
+  team:     'bg-slate-500 text-white',
+  personal: 'bg-accent-500 text-white',
 };
 
 <span className={`font-body text-xs font-medium px-2.5 py-1 rounded-full ${typeStyles[type]}`}>
@@ -202,8 +260,10 @@ const typeStyles = {
 
 ### Tech Stack Tag
 
+플랫 컬러 유지 (blur 중첩 금지).
+
 ```tsx
-<span className="font-body text-xs font-medium bg-gray-100 text-[#424242] px-2 py-0.5 rounded">
+<span className="font-body text-xs font-medium bg-slate-100 text-slate-600 px-2 py-0.5 rounded">
   {tag}
 </span>
 ```
@@ -211,54 +271,54 @@ const typeStyles = {
 ### Input / Form
 
 ```tsx
-<input className="w-full border border-gray-200 rounded-md px-3 py-2 font-body text-sm text-black placeholder:text-gray-400 focus:outline-none focus:border-black transition-colors" />
+<input className="w-full border border-slate-200 rounded-md px-3 py-2 font-body text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20 transition-colors" />
 
-<textarea className="w-full border border-gray-200 rounded-md px-3 py-2 font-body text-sm text-black placeholder:text-gray-400 focus:outline-none focus:border-black resize-none transition-colors" />
+<textarea className="w-full border border-slate-200 rounded-md px-3 py-2 font-body text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20 resize-none transition-colors" />
 
-<select className="w-full border border-gray-200 rounded-md px-3 py-2 font-body text-sm text-black focus:outline-none focus:border-black" />
+<select className="w-full border border-slate-200 rounded-md px-3 py-2 font-body text-sm text-slate-800 focus:outline-none focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20" />
 ```
 
-### Modal
+### Modal (Glassmorphism)
 
 ```tsx
-<div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-  <div className="bg-white rounded-lg w-full max-w-md shadow-xl">
-    <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
-      <h2 className="font-heading text-base font-semibold text-black">{title}</h2>
-      <button className="text-gray-400 hover:text-black transition-colors"><X size={18} strokeWidth={2} /></button>
+<div className="fixed inset-0 bg-slate-950/50 flex items-center justify-center z-50 p-4">
+  <div className="bg-white/90 backdrop-blur-xl rounded-lg w-full max-w-md shadow-xl border border-white/60">
+    <div className="flex items-center justify-between px-5 py-4 border-b border-slate-200/60">
+      <h2 className="font-heading text-base font-semibold text-slate-800">{title}</h2>
+      <button className="text-slate-400 hover:text-slate-800 transition-colors cursor-pointer"><X size={18} strokeWidth={2} /></button>
     </div>
     <div className="p-5">{/* 본문 */}</div>
   </div>
 </div>
 ```
 
-### Sidebar (PC 전용, `hidden lg:flex`)
+### Sidebar (PC 전용, `hidden lg:flex`, Glassmorphism)
 
 ```tsx
-<aside className="fixed left-0 top-0 w-[220px] min-h-screen bg-black flex flex-col px-4 py-5">
+<aside className="fixed left-0 top-0 w-[220px] min-h-screen bg-slate-900/85 backdrop-blur-xl border-r border-white/10 flex flex-col px-4 py-5">
   <div className="flex items-center gap-2 mb-8">
-    <div className="w-7 h-7 rounded-md bg-white flex items-center justify-center text-black text-xs font-bold font-heading">M</div>
-    <span className="font-heading text-white text-base font-bold">MyStack</span>
+    <div className="w-7 h-7 rounded-md bg-accent-500 flex items-center justify-center text-white text-xs font-bold font-heading">T</div>
+    <span className="font-heading text-white text-base font-bold">tokolog</span>
   </div>
   <nav className="flex flex-col gap-1">
     {/* 활성 메뉴 */}
-    <a className="flex items-center gap-3 px-3 py-2 rounded-md font-body text-sm font-medium text-white bg-white/10">
+    <a className="flex items-center gap-3 px-3 py-2 rounded-md font-body text-sm font-medium text-white bg-white/10 cursor-pointer">
       Projects
     </a>
     {/* 비활성 메뉴 */}
-    <a className="flex items-center gap-3 px-3 py-2 rounded-md font-body text-sm font-medium text-neutral-400 hover:text-white hover:bg-white/5 transition-colors">
-      Experience
+    <a className="flex items-center gap-3 px-3 py-2 rounded-md font-body text-sm font-medium text-slate-400 hover:text-white hover:bg-white/5 transition-colors cursor-pointer">
+      Blog
     </a>
   </nav>
 </aside>
 ```
 
-### Top Nav Bar (모바일 전용, `lg:hidden`)
+### Top Nav Bar (모바일 전용, `lg:hidden`, Glassmorphism)
 
 ```tsx
-<header className="flex items-center justify-between px-4 h-14 bg-white border-b border-gray-200 lg:hidden">
-  <span className="font-heading text-base font-bold text-black">MyStack</span>
-  <div className="flex items-center gap-3 text-[#424242]">
+<header className="flex items-center justify-between px-4 h-14 bg-white/80 backdrop-blur-xl border-b border-slate-200/60 lg:hidden">
+  <span className="font-heading text-base font-bold text-slate-800">tokolog</span>
+  <div className="flex items-center gap-3 text-slate-600">
     {/* 검색, 알림, 설정, 아바타 아이콘 */}
   </div>
 </header>
@@ -270,16 +330,18 @@ const typeStyles = {
 
 | 상태 | 처리 방식 |
 |------|----------|
-| 카드 hover | `hover:shadow-md transition-shadow` |
-| 버튼 hover (primary) | `hover:bg-[#424242]` |
-| 버튼 hover (secondary) | `hover:bg-neutral-100` |
+| 카드 hover | `hover:shadow-lg hover:bg-white/70 transition-all` |
+| 버튼 hover (primary) | `hover:bg-accent-500` |
+| 버튼 hover (secondary) | `hover:bg-slate-100` |
 | 사이드바 메뉴 hover | `hover:text-white hover:bg-white/5` |
 | 사이드바 메뉴 active | `text-white bg-white/10` |
-| Input focus | `focus:border-black` |
+| Input focus | `focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20` |
 | disabled | `opacity-50 cursor-not-allowed` |
-| 클릭 가능한 모든 요소 | `cursor-pointer` — `<button>`, `<a>`, 카드 등 onClick이 있는 요소 필수 |
+| 클릭 가능한 모든 요소 | `cursor-pointer` 필수 |
 
-모든 전환에 `transition-colors` 또는 `transition-shadow` 적용.
+`<button>`은 Tailwind Preflight에 의해 기본값이 `cursor: default`다. onClick이 있는 모든 `<button>`, `<a>`/`<Link>`, 클릭 가능한 `<div>`에 **반드시 `cursor-pointer`를 명시적으로 추가**한다. 리뷰 시 `grep -rn "<button" src | grep -v cursor-pointer`로 누락 여부를 검증한다.
+
+모든 전환에 `transition-colors` 또는 `transition-all` 적용.
 
 ---
 
@@ -306,15 +368,19 @@ const typeStyles = {
 ## 9. Do / Don't
 
 **Do**
-- Headline/제목은 항상 `font-heading` (Manrope) 사용
-- Body/설명/레이블은 항상 `font-body` (Inter) 사용
-- 색상은 `#000000`, `#424242`, `#F5F5F5` 3가지 기반으로만 조합
+- Headline/Body/Label 모두 `font-heading`/`font-body` (Pretendard) 사용, 위계는 font-weight로만 구분
+- 뉴트럴은 `slate-*`, 포인트는 `accent-*`만 사용
+- accent 컬러는 화면(뷰포트)당 1~2곳으로 제한해 은은함 유지
+- `backdrop-blur`는 카드·Sidebar·Modal·Mobile TopNav에만 적용, 버튼·배지·태그는 플랫 컬러 유지 (blur 중첩 금지)
 - 버튼은 `rounded-full`, 카드/모달은 `rounded-lg`, 입력은 `rounded-md`
 - 간격은 4px 단위 기준 (`gap-2`, `gap-4`, `gap-5`, `p-4`, `px-6`)
+- 호버·클릭 가능한 모든 요소에 `cursor-pointer` 명시
 
 **Don't**
+- `#000000` / `#424242` 등 구 팔레트 하드코딩 재도입 금지
 - 임의의 hex 색상 `style={{ color: '#...' }}`으로 직접 사용 금지
-- indigo 계열 색상 신규 추가 금지 (기존 컴포넌트는 순차 마이그레이션)
+- accent 컬러 남용 금지 (버튼마다 파란색 도배 금지)
 - `rounded-xl` / `rounded-2xl` 신규 사용 금지 (라운드니스 1 기준 위반)
-- Manrope/Inter 외 다른 폰트 추가 금지
+- Pretendard 외 다른 폰트 추가 금지
+- 카드 내부 요소(태그 등)에 blur 중첩 금지
 - 사이드바와 Top Nav 동시 렌더링 금지 (`lg:hidden` / `hidden lg:flex` 분기 필수)

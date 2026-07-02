@@ -40,7 +40,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
     <div className="max-w-3xl">
       <Link
         href="/blog"
-        className="inline-flex items-center gap-1.5 font-body text-sm text-[#424242] hover:text-black transition-colors mb-8"
+        className="inline-flex items-center gap-1.5 font-body text-sm text-slate-600 hover:text-slate-800 transition-colors mb-8 cursor-pointer"
       >
         <ArrowLeft size={16} />
         Blog로 돌아가기
@@ -52,17 +52,19 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
             {frontmatter.tags.map((tag: string) => (
               <span
                 key={tag}
-                className="font-body text-xs font-medium bg-gray-100 text-[#424242] px-2 py-0.5 rounded"
+                className="font-body text-xs font-medium bg-slate-100 text-slate-600 px-2 py-0.5 rounded"
               >
                 {tag}
               </span>
             ))}
           </div>
-          <h1 className="font-heading text-3xl font-bold text-black mb-2">{frontmatter.title}</h1>
-          <time className="font-body text-xs text-gray-400">{formattedDate}</time>
+          <h1 className="font-heading text-3xl font-bold text-slate-800 mb-2">
+            {frontmatter.title}
+          </h1>
+          <time className="font-body text-xs text-slate-400">{formattedDate}</time>
         </header>
 
-        <div className="prose prose-sm max-w-none font-body text-[#424242]">
+        <div className="prose prose-sm max-w-none font-body text-slate-600">
           <MDXRemote source={content} />
         </div>
       </article>

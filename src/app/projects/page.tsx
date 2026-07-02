@@ -9,8 +9,8 @@ export default function ProjectsPage() {
   return (
     <div>
       <div className="mb-8">
-        <h1 className="font-heading text-2xl font-bold text-black">Projects</h1>
-        <p className="font-body text-sm text-[#424242] mt-1">직접 만든 프로젝트 데모 모음</p>
+        <h1 className="font-heading text-2xl font-bold text-slate-800">Projects</h1>
+        <p className="font-body text-sm text-slate-600 mt-1">직접 만든 프로젝트 데모 모음</p>
       </div>
       <ProjectsGrid projects={projects} />
     </div>

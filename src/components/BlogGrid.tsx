@@ -20,10 +20,10 @@ export function BlogGrid({ posts }: BlogGridProps) {
         <div className="flex gap-2 flex-wrap mb-6">
           <button
             onClick={() => setActiveTag(null)}
-            className={`font-body text-xs font-medium px-3 py-1.5 rounded-full transition-colors ${
+            className={`font-body text-xs font-medium px-3 py-1.5 rounded-full transition-colors cursor-pointer ${
               activeTag === null
-                ? 'bg-black text-white'
-                : 'bg-gray-100 text-[#424242] hover:bg-gray-200'
+                ? 'bg-accent-600 text-white'
+                : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
             }`}
           >
             전체
@@ -32,10 +32,10 @@ export function BlogGrid({ posts }: BlogGridProps) {
             <button
               key={tag}
               onClick={() => setActiveTag(tag === activeTag ? null : tag)}
-              className={`font-body text-xs font-medium px-3 py-1.5 rounded-full transition-colors ${
+              className={`font-body text-xs font-medium px-3 py-1.5 rounded-full transition-colors cursor-pointer ${
                 activeTag === tag
-                  ? 'bg-black text-white'
-                  : 'bg-gray-100 text-[#424242] hover:bg-gray-200'
+                  ? 'bg-accent-600 text-white'
+                  : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
               }`}
             >
               {tag}
@@ -45,7 +45,7 @@ export function BlogGrid({ posts }: BlogGridProps) {
       )}
 
       {visible.length === 0 ? (
-        <p className="font-body text-sm text-gray-400 py-16 text-center">
+        <p className="font-body text-sm text-slate-400 py-16 text-center">
           해당 태그의 글이 없습니다.
         </p>
       ) : (

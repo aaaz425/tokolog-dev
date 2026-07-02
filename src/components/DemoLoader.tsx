@@ -5,7 +5,7 @@ import dynamic from 'next/dynamic';
 const DEMOS = {
   'todo-app': dynamic(
     () => import('@/demos/TodoAppDemo').then((m) => ({ default: m.TodoAppDemo })),
-    { loading: () => <p className="font-body text-sm text-gray-400">데모 로딩 중...</p> }
+    { loading: () => <p className="font-body text-sm text-slate-400">데모 로딩 중...</p> }
   ),
 } as const;
 
@@ -19,7 +19,7 @@ export function DemoLoader({ slug }: DemoLoaderProps) {
   const Demo = DEMOS[slug as DemoSlug];
   if (!Demo) {
     return (
-      <p className="font-body text-sm text-gray-400 text-center py-16">데모를 찾을 수 없습니다.</p>
+      <p className="font-body text-sm text-slate-400 text-center py-16">데모를 찾을 수 없습니다.</p>
     );
   }
   return <Demo />;
