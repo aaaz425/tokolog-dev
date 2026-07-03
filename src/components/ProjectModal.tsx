@@ -7,6 +7,7 @@ import { X } from 'lucide-react';
 import { ProjectDetailCard } from '@/components/ProjectDetailCard';
 import { DemoLoader } from '@/components/DemoLoader';
 import { DemoControls } from '@/components/DemoControls';
+import { useActiveProjectCard } from '@/store/useActiveProjectCard';
 import type { Project } from '@/types/project';
 
 interface ProjectModalProps {
@@ -19,6 +20,7 @@ export function ProjectModal({ project }: ProjectModalProps) {
   const router = useRouter();
   const pathname = usePathname();
   const [view, setView] = useState<ModalView>('detail');
+  const originRect = useActiveProjectCard((s) => s.originRect);
   const close = () => router.back();
 
   useEffect(() => {
@@ -37,6 +39,18 @@ export function ProjectModal({ project }: ProjectModalProps) {
 
   const isDemo = view === 'demo';
 
+  // 클릭한 카드의 화면상 위치에서 모달이 확대되며 나타나는 것처럼 보이도록,
+  // 카드 중심과 뷰포트 중심의 차이를 초기 위치로 사용한다.
+  const entryTransform =
+    originRect && typeof window !== 'undefined'
+      ? {
+          opacity: 0,
+          scale: 0.45,
+          x: originRect.x + originRect.width / 2 - window.innerWidth / 2,
+          y: originRect.y + originRect.height / 2 - window.innerHeight / 2,
+        }
+      : { opacity: 0, scale: 0.96, y: 8 };
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -45,35 +59,44 @@ export function ProjectModal({ project }: ProjectModalProps) {
       className={`fixed inset-0 bg-slate-900/20 backdrop-blur-sm flex items-center justify-center z-50 ${isDemo ? '' : 'p-4'}`}
       onClick={isDemo ? undefined : close}
     >
+      {/* 진입 애니메이션 전용 레이어 — 클릭한 카드 위치에서 확대되며 나타난다.
+          레이아웃 크기 변화(데모뷰 전환)는 안쪽 레이어가 layout prop으로 별도 처리한다. */}
       <motion.div
-        layout
+        initial={entryTransform}
+        animate={{ opacity: 1, scale: 1, x: 0, y: 0 }}
         transition={{ type: 'spring', stiffness: 300, damping: 32 }}
-        className={
-          isDemo
-            ? 'relative w-full h-full overflow-y-auto rounded-none bg-slate-50'
-            : 'relative w-full max-w-2xl max-h-[85vh] overflow-y-auto rounded-lg'
-        }
-        onClick={(e) => e.stopPropagation()}
+        className="w-full h-full flex items-center justify-center pointer-events-none"
       >
-        {isDemo ? (
-          <>
-            <div className="max-w-3xl mx-auto p-6 md:p-10">
-              <DemoLoader slug={project.slug} />
-            </div>
-            <DemoControls onBack={() => setView('detail')} onClose={close} />
-          </>
-        ) : (
-          <>
-            <button
-              onClick={close}
-              aria-label="닫기"
-              className="absolute top-4 right-4 z-10 flex items-center justify-center w-9 h-9 rounded-full bg-white/90 backdrop-blur-sm shadow-md text-slate-600 hover:text-slate-800 transition-colors cursor-pointer"
-            >
-              <X size={18} />
-            </button>
-            <ProjectDetailCard project={project} glass onDemoClick={() => setView('demo')} />
-          </>
-        )}
+        <motion.div
+          layout
+          transition={{ type: 'spring', stiffness: 300, damping: 32 }}
+          className={`pointer-events-auto ${
+            isDemo
+              ? 'relative w-full h-full overflow-y-auto rounded-none bg-slate-50'
+              : 'relative w-full max-w-2xl max-h-[85vh] overflow-y-auto rounded-lg'
+          }`}
+          onClick={(e) => e.stopPropagation()}
+        >
+          {isDemo ? (
+            <>
+              <div className="max-w-3xl mx-auto p-6 md:p-10">
+                <DemoLoader slug={project.slug} />
+              </div>
+              <DemoControls onBack={() => setView('detail')} onClose={close} />
+            </>
+          ) : (
+            <>
+              <button
+                onClick={close}
+                aria-label="닫기"
+                className="absolute top-4 right-4 z-10 flex items-center justify-center w-9 h-9 rounded-full bg-white/90 backdrop-blur-sm shadow-md text-slate-600 hover:text-slate-800 transition-colors cursor-pointer"
+              >
+                <X size={18} />
+              </button>
+              <ProjectDetailCard project={project} glass onDemoClick={() => setView('demo')} />
+            </>
+          )}
+        </motion.div>
       </motion.div>
     </motion.div>
   );

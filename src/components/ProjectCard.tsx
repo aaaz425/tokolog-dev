@@ -27,7 +27,10 @@ function formatPeriod(startDate: string, endDate?: string) {
 export function ProjectCard({ project }: ProjectCardProps) {
   return (
     <Link href={`/projects/${project.slug}`} className="block h-full">
-      <MotionCardSurface className="bg-white rounded-lg overflow-hidden border border-slate-200 shadow-sm hover:shadow-md transition-shadow cursor-pointer h-full flex flex-col">
+      <MotionCardSurface
+        captureOrigin
+        className="bg-white rounded-lg overflow-hidden border border-slate-200 shadow-sm hover:shadow-md transition-shadow cursor-pointer h-full flex flex-col"
+      >
         <div className="aspect-video bg-slate-100 flex items-center justify-center flex-shrink-0">
           {project.thumbnailUrl ? (
             <img
