@@ -62,22 +62,37 @@ export function ProjectDetailCard({ project, glass = false, onDemoClick }: Proje
             <h1 className="font-heading text-2xl font-bold text-slate-800">{project.title}</h1>
           </div>
 
-          {project.hasDemo &&
-            (onDemoClick ? (
+          {project.hasDemo ? (
+            onDemoClick ? (
               <button onClick={onDemoClick} className="flex-shrink-0">
                 <MotionPill className="flex items-center gap-1.5 bg-accent-600 text-white font-body text-sm font-medium px-4 py-2 rounded-full hover:bg-accent-500 transition-colors cursor-pointer">
-                  <Play size={14} />
+                  <Play size={14} fill="currentColor" />
                   Demo
                 </MotionPill>
               </button>
             ) : (
               <Link href={`/projects/${project.slug}/demo`} className="flex-shrink-0">
                 <MotionPill className="flex items-center gap-1.5 bg-accent-600 text-white font-body text-sm font-medium px-4 py-2 rounded-full hover:bg-accent-500 transition-colors cursor-pointer">
-                  <Play size={14} />
+                  <Play size={14} fill="currentColor" />
                   Demo
                 </MotionPill>
               </Link>
-            ))}
+            )
+          ) : (
+            project.deployUrl && (
+              <a
+                href={project.deployUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex-shrink-0"
+              >
+                <MotionPill className="flex items-center gap-1.5 bg-accent-600 text-white font-body text-sm font-medium px-4 py-2 rounded-full hover:bg-accent-500 transition-colors cursor-pointer">
+                  <Play size={14} fill="currentColor" />
+                  배포 링크
+                </MotionPill>
+              </a>
+            )
+          )}
         </div>
 
         <p className="font-body text-sm text-slate-600 leading-relaxed mb-6">
@@ -93,7 +108,7 @@ export function ProjectDetailCard({ project, glass = false, onDemoClick }: Proje
           </div>
         </div>
 
-        {(project.githubUrl || project.deployUrl) && (
+        {(project.githubUrl || (project.hasDemo && project.deployUrl)) && (
           <div className="flex gap-3 pt-4 border-t border-slate-200/60">
             {project.githubUrl && (
               <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
@@ -103,7 +118,7 @@ export function ProjectDetailCard({ project, glass = false, onDemoClick }: Proje
                 </MotionPill>
               </a>
             )}
-            {project.deployUrl && (
+            {project.hasDemo && project.deployUrl && (
               <a href={project.deployUrl} target="_blank" rel="noopener noreferrer">
                 <MotionPill className="flex items-center gap-1.5 border border-slate-300 text-slate-700 font-body text-sm font-medium px-4 py-2 rounded-full hover:bg-slate-100 transition-colors cursor-pointer">
                   <ExternalLink size={16} />
