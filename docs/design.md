@@ -289,22 +289,69 @@ export function ProjectDetailCard({ project, glass = false }: ProjectDetailCardP
 
 ```tsx
 // src/components/ProjectModal.tsx ('use client')
-<div className="fixed inset-0 bg-slate-950/50 flex items-center justify-center z-50 p-4" onClick={close}>
-  <div className="relative w-full max-w-2xl max-h-[85vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
-    <button
-      onClick={close}
-      aria-label="닫기"
-      className="absolute -top-3 -right-3 z-10 flex items-center justify-center w-9 h-9 rounded-full bg-white shadow-md text-slate-600 hover:text-slate-800 transition-colors cursor-pointer"
-    >
-      <X size={18} />
-    </button>
-    <ProjectDetailCard project={project} glass />
-  </div>
+const [view, setView] = useState<'detail' | 'demo'>('detail');
+const isDemo = view === 'demo';
+
+<div
+  className={`fixed inset-0 bg-slate-900/20 backdrop-blur-sm flex items-center justify-center z-50 ${isDemo ? '' : 'p-4'}`}
+  onClick={isDemo ? undefined : close}
+>
+  <motion.div
+    layout
+    transition={{ type: 'spring', stiffness: 300, damping: 32 }}
+    className={
+      isDemo
+        ? 'relative w-full h-full overflow-y-auto rounded-none bg-slate-50'
+        : 'relative w-full max-w-2xl max-h-[85vh] overflow-y-auto rounded-lg'
+    }
+    onClick={(e) => e.stopPropagation()}
+  >
+    {isDemo ? (
+      <>
+        <div className="max-w-3xl mx-auto p-6 md:p-10">
+          <DemoLoader slug={project.slug} />
+        </div>
+        <DemoControls onBack={() => setView('detail')} onClose={close} />
+      </>
+    ) : (
+      <>
+        <button onClick={close} aria-label="닫기" className="absolute top-4 right-4 z-10 ...">
+          <X size={18} />
+        </button>
+        <ProjectDetailCard project={project} glass onDemoClick={() => setView('demo')} />
+      </>
+    )}
+  </motion.div>
 </div>
 ```
 
-- 닫기: 오버레이 클릭, X 버튼, `Escape` 키 모두 `router.back()`으로 처리 (모달 콘텐츠 클릭은 `stopPropagation`으로 닫히지 않게 막는다).
-- 모달 안의 "Demo" 버튼은 `/projects/[slug]/demo`로 이동하며, 이 라우트는 인터셉트 대상이 아니라 평소처럼 풀페이지로 열린다.
+- 닫기(디테일 뷰): 오버레이 클릭, X 버튼, `Escape` 키 모두 `router.back()`으로 처리 (모달 콘텐츠 클릭은 `stopPropagation`으로 닫히지 않게 막는다).
+- "Demo" 클릭은 라우트 이동이 아니라 **모달 내부 뷰 전환**(`view` state)이다. 같은 `motion.div`가 `layout` prop으로 카드 크기의 박스에서 풀스크린으로 자동 확장 애니메이션된다 — 별도의 `layoutId` 매칭 없이, 같은 컴포넌트 인스턴스이기 때문에 프레이머모션이 레이아웃 변화를 자동으로 감지해 애니메이션한다.
+- 데모 뷰는 몰입감을 위해 제목/설명/뒤로가기 텍스트/상시 X 버튼을 렌더링하지 않는다 — 대신 `DemoControls`(패턴 5 참고)가 그 역할을 대체한다.
+- `/projects/[slug]/demo` 풀페이지 라우트(직접 접속·새로고침용)는 인터셉트 대상이 아니며 이 모달 내부 뷰 전환과 무관하게 독립적으로 동작한다.
+- **Parallel routes 함정**: 모달이 열린 채로 이 프로젝트의 하위 경로(과거엔 `/demo`로 실제 이동했음)로 client 네비게이션하면 `@modal` 슬롯이 새 URL과 매치되지 않아도 이전 콘텐츠를 그대로 들고 있는 Next.js 특성이 있다. `ProjectModal`은 `usePathname()`으로 자기 경로(`/projects/${project.slug}`)와 다르면 스스로 `null`을 반환해 방어한다.
+
+### Phone Frame (모바일 앱 재현 데모 전용)
+
+Flutter/React Native 등 네이티브 앱은 데모 페이지에 그대로 못 띄운다. **비디오 임베드가 아니라 웹으로 재현(포팅)한다** — 핵심 화면·인터랙션을 React 컴포넌트로 다시 만들어 `src/demos/`에 추가하고 `DemoLoader.tsx`의 `DEMOS` 맵에 슬러그로 등록한다(TodoApp 데모와 동일한 절차). 백엔드 없이 프론트엔드만으로 완결되어야 하며, 단순 CRUD는 `localStorage` 동기화(TodoApp 방식), 실제 API 호출 흐름(로딩/에러 등)까지 보여줘야 하면 `MSW`로 fetch를 가로챈다.
+
+재현한 데모가 모바일 앱임을 시각적으로 드러내려면 `PhoneFrame`으로 감싼다:
+
+```tsx
+// src/components/PhoneFrame.tsx
+<div className="mx-auto w-full max-w-[280px] aspect-[9/19.5] rounded-[2.5rem] border-8 border-slate-800 bg-slate-950 shadow-xl overflow-hidden">
+  <div className="w-full h-full overflow-y-auto">{children}</div>
+</div>
+```
+
+```tsx
+// 사용 예 — src/demos/SomeFlutterAppDemo.tsx
+export function SomeFlutterAppDemo() {
+  return <PhoneFrame>{/* 재현한 모바일 화면 */}</PhoneFrame>;
+}
+```
+
+`max-w-[280px]`로 상한을 두되 `w-full`로 좁은 화면에서 줄어들게 해 반응형을 보장한다. 웹 앱을 재현한 데모(TodoApp 등)는 감싸지 않는다 — 원본이 데스크톱/반응형 웹이면 넓은 카드 그대로 두는 게 자연스럽다.
 
 ### 일반 Form Modal (Flat)
 
@@ -460,6 +507,17 @@ export function ProjectDetailCard({ project, glass = false }: ProjectDetailCardP
 ### 패턴 4 — 버튼 hover/tap
 
 Pill 모양 CTA/액션 버튼(랜딩 CTA, `ProjectDetailCard`의 Demo/GitHub/배포)은 `MotionPill`로 감싸 `whileHover={{ scale: 1.03 }}` / `whileTap={{ scale: 0.97 }}`를 적용한다. `Link`/`<a>`는 그대로 두고 내부 `motion.span`만 시각/모션을 담당한다.
+
+### 패턴 5 — 몰입형 오토하이드 컨트롤
+
+프로젝트 상세 모달의 데모 풀스크린 뷰처럼 "체험 자체"가 중요한 화면에서는 상시 노출되는 UI 크롬(제목, 설명, 버튼)이 몰입을 방해한다. 이럴 때는 `DemoControls` 패턴을 쓴다:
+
+- `mousemove` / `touchstart` / `keydown` 이벤트 하나로 표시 여부를 제어한다. 데스크톱 hover 전용, 모바일 tap 전용으로 분기하지 않는다 — 이벤트 리스너 하나가 두 플랫폼을 동시에 커버한다.
+- 진입 시 잠깐(약 2초) 완전히 보였다가 옅어지는 것으로 시작한다. 처음부터 완전히 숨기면 컨트롤의 존재 자체를 못 찾는 discoverability 문제가 생긴다.
+- 마지막 인터랙션 후 일정 시간(2.5초)이 지나면 자동으로 옅어진다.
+- opacity 전환은 `useState` + `setTimeout`으로 제어하는 단발성 fade이며, 반복 재생되는 애니메이션이 아니므로 "반복/루프 금지" 원칙에 위배되지 않는다.
+- 터치 타겟은 최소 44px(예: `w-11 h-11`)를 지킨다.
+- 위치는 화면 모서리 고정(`fixed`)이라 뷰포트 크기와 무관하게 항상 도달 가능해야 한다.
 
 ### 접근성
 

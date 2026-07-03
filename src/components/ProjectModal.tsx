@@ -3,9 +3,10 @@
 import { useEffect, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { ArrowLeft, X } from 'lucide-react';
+import { X } from 'lucide-react';
 import { ProjectDetailCard } from '@/components/ProjectDetailCard';
 import { DemoLoader } from '@/components/DemoLoader';
+import { DemoControls } from '@/components/DemoControls';
 import type { Project } from '@/types/project';
 
 interface ProjectModalProps {
@@ -54,37 +55,24 @@ export function ProjectModal({ project }: ProjectModalProps) {
         }
         onClick={(e) => e.stopPropagation()}
       >
-        <button
-          onClick={close}
-          aria-label="닫기"
-          className={`z-10 flex items-center justify-center w-9 h-9 rounded-full bg-white/90 backdrop-blur-sm shadow-md text-slate-600 hover:text-slate-800 transition-colors cursor-pointer ${
-            isDemo ? 'fixed top-4 right-4' : 'absolute top-4 right-4'
-          }`}
-        >
-          <X size={18} />
-        </button>
-
         {isDemo ? (
-          <div className="max-w-3xl mx-auto p-6 md:p-10">
-            <button
-              onClick={() => setView('detail')}
-              className="inline-flex items-center gap-1.5 font-body text-sm text-slate-600 hover:text-slate-800 transition-colors mb-8 cursor-pointer"
-            >
-              <ArrowLeft size={16} />
-              {project.title}로 돌아가기
-            </button>
-            <div className="mb-6">
-              <h1 className="font-heading text-2xl font-bold text-slate-800 mb-1">
-                {project.title} — 데모
-              </h1>
-              <p className="font-body text-sm text-slate-600">
-                목 데이터로 구동되는 인터랙티브 데모입니다.
-              </p>
+          <>
+            <div className="max-w-3xl mx-auto p-6 md:p-10">
+              <DemoLoader slug={project.slug} />
             </div>
-            <DemoLoader slug={project.slug} />
-          </div>
+            <DemoControls onBack={() => setView('detail')} onClose={close} />
+          </>
         ) : (
-          <ProjectDetailCard project={project} glass onDemoClick={() => setView('demo')} />
+          <>
+            <button
+              onClick={close}
+              aria-label="닫기"
+              className="absolute top-4 right-4 z-10 flex items-center justify-center w-9 h-9 rounded-full bg-white/90 backdrop-blur-sm shadow-md text-slate-600 hover:text-slate-800 transition-colors cursor-pointer"
+            >
+              <X size={18} />
+            </button>
+            <ProjectDetailCard project={project} glass onDemoClick={() => setView('demo')} />
+          </>
         )}
       </motion.div>
     </motion.div>
