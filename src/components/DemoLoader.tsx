@@ -7,6 +7,10 @@ const DEMOS = {
     () => import('@/demos/TodoAppDemo').then((m) => ({ default: m.TodoAppDemo })),
     { loading: () => <p className="font-body text-sm text-slate-400">데모 로딩 중...</p> }
   ),
+  'habit-tracker': dynamic(
+    () => import('@/demos/HabitTrackerDemo').then((m) => ({ default: m.HabitTrackerDemo })),
+    { loading: () => <p className="font-body text-sm text-slate-400">데모 로딩 중...</p> }
+  ),
 } as const;
 
 type DemoSlug = keyof typeof DEMOS;

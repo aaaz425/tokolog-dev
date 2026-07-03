@@ -25,4 +25,17 @@ export const projects: Project[] = [
     deployUrl: 'https://tokolog.vercel.app',
     hasDemo: false,
   },
+  {
+    // 예시 데이터 — Flutter/RN처럼 브라우저에 그대로 못 띄우는 앱을
+    // PhoneFrame + 웹 재현 데모로 보여주는 패턴 샘플. 실제 프로젝트로 교체하거나 삭제해도 됨.
+    slug: 'habit-tracker',
+    title: '습관 트래커',
+    type: 'personal',
+    description:
+      'Flutter로 만든 습관 관리 앱. 스트릭 추적 UI를 PhoneFrame 안에 웹으로 재현한 데모입니다.',
+    techStack: ['Flutter', 'Dart', 'Riverpod'],
+    startDate: '2024-08',
+    endDate: '2024-10',
+    hasDemo: true,
+  },
 ];

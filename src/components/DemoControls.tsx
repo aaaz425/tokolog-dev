@@ -8,58 +8,79 @@ interface DemoControlsProps {
   onClose: () => void;
 }
 
-const IDLE_HIDE_MS = 2500;
+const IDLE_COLLAPSE_MS = 2000;
 
 export function DemoControls({ onBack, onClose }: DemoControlsProps) {
-  const [visible, setVisible] = useState(true);
+  const [expanded, setExpanded] = useState(true);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  const clearPendingCollapse = () => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+    }
+  };
+
+  const scheduleCollapse = () => {
+    clearPendingCollapse();
+    timeoutRef.current = setTimeout(() => setExpanded(false), IDLE_COLLAPSE_MS);
+  };
+
+  const handleMouseEnter = () => {
+    setExpanded(true);
+    clearPendingCollapse();
+  };
+
+  const handleClick = () => {
+    setExpanded(true);
+    scheduleCollapse();
+  };
+
   useEffect(() => {
-    const scheduleHide = () => {
-      if (timeoutRef.current) clearTimeout(timeoutRef.current);
-      timeoutRef.current = setTimeout(() => setVisible(false), IDLE_HIDE_MS);
-    };
-
-    const showControls = () => {
-      setVisible(true);
-      scheduleHide();
-    };
-
-    scheduleHide();
-
-    window.addEventListener('mousemove', showControls);
-    window.addEventListener('touchstart', showControls);
-    window.addEventListener('keydown', showControls);
-
-    return () => {
-      if (timeoutRef.current) clearTimeout(timeoutRef.current);
-      window.removeEventListener('mousemove', showControls);
-      window.removeEventListener('touchstart', showControls);
-      window.removeEventListener('keydown', showControls);
-    };
+    scheduleCollapse();
+    return () => clearPendingCollapse();
   }, []);
 
   return (
     <div
-      className={`fixed bottom-4 right-4 z-20 flex items-center gap-1 rounded-full bg-white/80 backdrop-blur-md shadow-lg transition-opacity duration-300 ${
-        visible ? 'opacity-100' : 'opacity-0 pointer-events-none'
-      }`}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={scheduleCollapse}
+      onClick={handleClick}
+      className="fixed bottom-4 right-4 sm:bottom-auto sm:right-auto sm:top-6 sm:left-6 z-20 w-14 flex flex-col items-center gap-0.5 rounded-full border-2 border-white/30 bg-gradient-to-b from-slate-700 to-slate-950 shadow-[inset_0_1px_0_rgba(255,255,255,0.18),inset_0_-3px_6px_rgba(0,0,0,0.45),0_16px_36px_-8px_rgba(0,0,0,0.65)] px-2 py-2 cursor-pointer"
     >
-      <button
-        onClick={onBack}
-        aria-label="상세로 돌아가기"
-        className="flex items-center justify-center w-11 h-11 rounded-full text-slate-600 hover:text-slate-800 transition-colors cursor-pointer"
+      <span
+        aria-hidden
+        className="flex items-center justify-center w-9 h-9 rounded-full bg-gradient-to-b from-accent-500 to-accent-600 text-white text-xs font-bold font-heading flex-shrink-0 shadow-[inset_0_1px_0_rgba(255,255,255,0.35),inset_0_-2px_3px_rgba(0,0,0,0.2)]"
       >
-        <ArrowLeft size={18} />
-      </button>
-      <div className="w-px h-5 bg-slate-200" />
-      <button
-        onClick={onClose}
-        aria-label="닫기"
-        className="flex items-center justify-center w-11 h-11 rounded-full text-slate-600 hover:text-slate-800 transition-colors cursor-pointer"
+        T
+      </span>
+      <div
+        className={`flex flex-col items-center gap-0.5 overflow-hidden transition-[max-height] duration-300 ease-out ${
+          expanded ? 'max-h-24' : 'max-h-0'
+        }`}
       >
-        <X size={18} />
-      </button>
+        <span aria-hidden className="w-6 h-px bg-white/15 my-1 flex-shrink-0" />
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            onBack();
+          }}
+          aria-label="상세로 돌아가기"
+          className="flex items-center justify-center w-10 h-10 rounded-full text-white/85 hover:text-white hover:bg-white/10 transition-colors cursor-pointer flex-shrink-0"
+        >
+          <ArrowLeft size={18} />
+        </button>
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            onClose();
+          }}
+          aria-label="닫기"
+          className="flex items-center justify-center w-10 h-10 rounded-full text-white/85 hover:text-white hover:bg-white/10 transition-colors cursor-pointer flex-shrink-0"
+        >
+          <X size={18} />
+        </button>
+      </div>
     </div>
   );
 }
