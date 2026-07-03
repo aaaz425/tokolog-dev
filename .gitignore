@@ -16,11 +16,6 @@ dist
 dist-ssr
 *.local
 
-# Playwright
-test-results/
-playwright-report/
-blob-reports/
-
 # Environment variables
 .env
 .env.*
