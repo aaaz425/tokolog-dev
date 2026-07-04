@@ -4,7 +4,6 @@ import { useEffect, useMemo, useRef } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 
-// https://github.com/o2bomb/space-warp
 const COUNT = 100;
 const generatePos = () => (Math.random() - 0.5) * 10;
 
