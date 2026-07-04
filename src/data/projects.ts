@@ -38,4 +38,18 @@ export const projects: Project[] = [
     endDate: '2024-10',
     hasDemo: true,
   },
+  {
+    slug: 'galaxy-talk',
+    title: '은하수다 (GalaxyTalk)',
+    type: 'team',
+    description:
+      '우주 테마의 AI 고민 유사도 매칭 기반 1:1 화상 채팅 서비스. 3D 우주 씬(React Three Fiber), 소셜 로그인, 매칭 상태 관리, 마이페이지를 담당했습니다.',
+    techStack: ['React', 'TypeScript', 'React Three Fiber', 'Zustand', 'LiveKit', 'Tailwind CSS'],
+    startDate: '2025-01',
+    endDate: '2025-02',
+    githubUrl: 'https://github.com/aaaz425/GalaxyTalk',
+    thumbnailUrl: '/projects/galaxy-talk.jpg',
+    hasDemo: true,
+    fullscreenDemo: true,
+  },
 ];

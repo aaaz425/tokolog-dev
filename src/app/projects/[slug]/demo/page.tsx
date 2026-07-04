@@ -26,6 +26,21 @@ export default async function DemoPage({ params }: { params: Promise<{ slug: str
   const project = getProjectBySlug(slug);
   if (!project || !project.hasDemo) notFound();
 
+  if (project.fullscreenDemo) {
+    return (
+      <div className="fixed inset-0 bg-slate-950">
+        <Link
+          href={`/projects/${slug}`}
+          className="fixed top-6 left-6 z-20 inline-flex items-center gap-1.5 rounded-full bg-slate-950/70 px-3 py-1.5 font-body text-xs text-white/85 hover:text-white transition-colors cursor-pointer"
+        >
+          <ArrowLeft size={14} />
+          {project.title}로 돌아가기
+        </Link>
+        <DemoLoader slug={slug} />
+      </div>
+    );
+  }
+
   return (
     <div className="max-w-3xl">
       <Link

@@ -353,6 +353,31 @@ export function SomeFlutterAppDemo() {
 
 `max-w-[280px]`로 상한을 두되 `w-full`로 좁은 화면에서 줄어들게 해 반응형을 보장한다. 웹 앱을 재현한 데모(TodoApp 등)는 감싸지 않는다 — 원본이 데스크톱/반응형 웹이면 넓은 카드 그대로 두는 게 자연스럽다.
 
+### 풀스크린 몰입형 데모 (3D/공간 앱 재현 전용)
+
+원본이 3D 캔버스나 전체 화면 앱(예: `w-dvw h-dvh`로 뷰포트를 그대로 채우는 서비스)이라 카드 안에 작게 넣으면 원본의 몰입감이 죽는 경우, 데모 뷰의 기본 `max-w-3xl mx-auto p-6 md:p-10` 여백 래퍼를 건너뛰고 뷰포트를 그대로 채운다.
+
+`Project` 타입에 `fullscreenDemo?: boolean`을 추가해 표시한다:
+
+```tsx
+// src/data/projects.ts
+{ slug: 'galaxy-talk', /* ... */ hasDemo: true, fullscreenDemo: true }
+```
+
+`ProjectModal.tsx`와 `/projects/[slug]/demo/page.tsx` 양쪽에서 이 플래그를 보고 래퍼 유무를 분기한다:
+
+```tsx
+{project.fullscreenDemo ? (
+  <DemoLoader slug={project.slug} />
+) : (
+  <div className="max-w-3xl mx-auto p-6 md:p-10">
+    <DemoLoader slug={project.slug} />
+  </div>
+)}
+```
+
+데모 컴포넌트 쪽(`src/demos/*/`) 최상위 엘리먼트는 `aspect-video` 같은 카드형 크기 제한 대신 `w-full h-full`로 부모(모달의 `w-full h-full` 레이어)를 그대로 채운다. 여러 화면(3D 홈 → 대기 → 채팅 등)을 오가는 데모는 탭으로 화면을 고르게 하지 않고, 원본처럼 클릭·제출 등 실제 인터랙션으로 다음 화면으로 넘어가게 한다 — 탭 스위처는 원본에 없는 탐색 방식이라 몰입을 깬다.
+
 ### 일반 Form Modal (Flat)
 
 프로젝트 상세 모달 외의 다른 모달(폼 등)은 플랫로 유지한다.

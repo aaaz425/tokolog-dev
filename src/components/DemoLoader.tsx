@@ -1,6 +1,7 @@
 'use client';
 
 import dynamic from 'next/dynamic';
+import { Toaster } from 'sonner';
 
 const DEMOS = {
   'todo-app': dynamic(
@@ -9,6 +10,10 @@ const DEMOS = {
   ),
   'habit-tracker': dynamic(
     () => import('@/demos/HabitTrackerDemo').then((m) => ({ default: m.HabitTrackerDemo })),
+    { loading: () => <p className="font-body text-sm text-slate-400">데모 로딩 중...</p> }
+  ),
+  'galaxy-talk': dynamic(
+    () => import('@/demos/galaxy-talk/GalaxyTalkDemo').then((m) => ({ default: m.GalaxyTalkDemo })),
     { loading: () => <p className="font-body text-sm text-slate-400">데모 로딩 중...</p> }
   ),
 } as const;
@@ -26,5 +31,10 @@ export function DemoLoader({ slug }: DemoLoaderProps) {
       <p className="font-body text-sm text-slate-400 text-center py-16">데모를 찾을 수 없습니다.</p>
     );
   }
-  return <Demo />;
+  return (
+    <>
+      <Toaster position="top-center" />
+      <Demo />
+    </>
+  );
 }
