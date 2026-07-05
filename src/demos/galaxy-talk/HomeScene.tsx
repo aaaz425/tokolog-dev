@@ -109,7 +109,7 @@ function ClickableModel({
           onClick();
         }}
       >
-        <primitive object={scene} scale={scale} />
+        <primitive object={scene} scale={scale} dispose={null} />
       </group>
     </>
   );

@@ -173,19 +173,18 @@ function CandidateStar({ candidate }: { candidate: WaitingCandidate }) {
   ]);
   const rotationSpeed = useMemo(() => Math.random() * 0.005 + 0.005, []);
   const oscillationSpeed = useMemo(() => Math.random() * 0.005 + 0.002, []);
+  const targetPosition = useMemo(() => new THREE.Vector3(), []);
 
   useFrame(({ clock }) => {
     if (!meshRef.current || hovered) return;
     const t = clock.elapsedTime;
     const oscillation = Math.sin(t * oscillationSpeed) * 0.2;
-    meshRef.current.position.lerp(
-      new THREE.Vector3(
-        randomPosition[0] + oscillation,
-        randomPosition[1] + oscillation,
-        randomPosition[2] + oscillation
-      ),
-      0.1
+    targetPosition.set(
+      randomPosition[0] + oscillation,
+      randomPosition[1] + oscillation,
+      randomPosition[2] + oscillation
     );
+    meshRef.current.position.lerp(targetPosition, 0.1);
     meshRef.current.rotation.y += rotationSpeed;
     meshRef.current.rotation.x += rotationSpeed;
   });
@@ -205,7 +204,7 @@ function CandidateStar({ candidate }: { candidate: WaitingCandidate }) {
         document.body.style.cursor = 'default';
       }}
     >
-      <primitive object={scene.clone()} />
+      <primitive object={scene.clone()} dispose={null} />
       {hovered && (
         <Html center style={{ pointerEvents: 'none', width: '240px' }}>
           <div className="bg-white rounded-lg p-4 shadow-lg">
