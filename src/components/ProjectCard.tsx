@@ -31,12 +31,12 @@ export function ProjectCard({ project }: ProjectCardProps) {
         captureOrigin
         className="bg-white rounded-lg overflow-hidden border border-slate-200 shadow-sm hover:shadow-md transition-shadow cursor-pointer h-full flex flex-col"
       >
-        <div className="aspect-video bg-slate-100 flex items-center justify-center flex-shrink-0">
+        <div className="aspect-video bg-slate-100 overflow-hidden flex items-center justify-center shrink-0">
           {project.thumbnailUrl ? (
             <img
               src={project.thumbnailUrl}
               alt={project.title}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-contain"
             />
           ) : (
             <span className="font-heading text-4xl font-bold text-slate-300">
