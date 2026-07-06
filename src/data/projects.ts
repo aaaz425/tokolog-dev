@@ -26,17 +26,18 @@ export const projects: Project[] = [
     hasDemo: false,
   },
   {
-    // 예시 데이터 — Flutter/RN처럼 브라우저에 그대로 못 띄우는 앱을
-    // PhoneFrame + 웹 재현 데모로 보여주는 패턴 샘플. 실제 프로젝트로 교체하거나 삭제해도 됨.
-    slug: 'habit-tracker',
-    title: '습관 트래커',
-    type: 'personal',
+    slug: 'sleep-tight',
+    title: 'SleepTight',
+    type: 'team',
     description:
-      'Flutter로 만든 습관 관리 앱. 스트릭 추적 UI를 PhoneFrame 안에 웹으로 재현한 데모입니다.',
-    techStack: ['Flutter', 'Dart', 'Riverpod'],
-    startDate: '2024-08',
-    endDate: '2024-10',
+      'AI 기반 수면 사운드 분석 및 RAG 코칭 앱. 수면 중 오디오를 분석해 코골이·뒤척임을 감지하고, AI 코치가 개인화된 수면 개선 피드백을 제공합니다.',
+    techStack: ['Flutter', 'Dart', 'Riverpod', 'go_router', 'dio'],
+    startDate: '2024-11',
+    endDate: '2025-01',
+    githubUrl: 'https://github.com/aaaz425/SleepTight',
+    thumbnailUrl: '/projects/sleep-tight.jpg',
     hasDemo: true,
+    fullscreenDemo: false,
   },
   {
     slug: 'galaxy-talk',
