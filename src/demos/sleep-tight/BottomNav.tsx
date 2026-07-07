@@ -3,10 +3,10 @@
 import { Bot, ChartColumn, Headphones, Home, User, type LucideIcon } from 'lucide-react';
 import { toast } from 'sonner';
 
-export type SleepTightTab = 'home' | 'analysis' | 'coach';
+export type SleepTightTab = 'home' | 'analysis' | 'coach' | 'sound' | 'mypage';
 
 interface NavItem {
-  id: SleepTightTab | 'sound' | 'mypage';
+  id: SleepTightTab;
   label: string;
   icon: LucideIcon;
   enabled: boolean;
@@ -16,8 +16,8 @@ const NAV_ITEMS: NavItem[] = [
   { id: 'home', label: '홈', icon: Home, enabled: true },
   { id: 'analysis', label: '수면분석', icon: ChartColumn, enabled: true },
   { id: 'coach', label: '수면코치', icon: Bot, enabled: true },
-  { id: 'sound', label: '사운드', icon: Headphones, enabled: false },
-  { id: 'mypage', label: '마이페이지', icon: User, enabled: false },
+  { id: 'sound', label: '사운드', icon: Headphones, enabled: true },
+  { id: 'mypage', label: '마이페이지', icon: User, enabled: true },
 ];
 
 interface BottomNavProps {

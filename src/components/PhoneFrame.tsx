@@ -18,7 +18,7 @@ export function PhoneFrame({ children }: PhoneFrameProps) {
   return (
     <div className="mx-auto w-full max-w-[380px] aspect-9/19 rounded-[2.5rem] border-8 border-slate-800 bg-slate-950 shadow-xl overflow-hidden">
       <div
-        className="relative w-full h-full overflow-y-auto cursor-none"
+        className="relative w-full h-full overflow-hidden cursor-none"
         onMouseMove={handleMouseMove}
         onMouseLeave={() => setCursor(null)}
         onMouseDown={() => setPressed(true)}

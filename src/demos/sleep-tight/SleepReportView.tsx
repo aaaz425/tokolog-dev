@@ -1,3 +1,5 @@
+import { Clock } from 'lucide-react';
+import { AnomalySection } from './AnomalySection';
 import { SLEEP_TIGHT_COLORS } from './colors';
 import {
   CHART_END_LABEL,
@@ -69,7 +71,7 @@ export function SleepReportView() {
           {statRows.map((row) => (
             <div key={row.label} className="flex items-center justify-between">
               <span className="font-body text-xs text-[rgba(255,255,255,0.6)]">{row.label}</span>
-              <span className="font-body text-sm font-semibold text-[#7a6ff0]">{row.value}</span>
+              <span className="font-body text-base font-semibold text-[#7a6ff0]">{row.value}</span>
             </div>
           ))}
         </div>
@@ -82,26 +84,34 @@ export function SleepReportView() {
         endLabel={CHART_END_LABEL}
       />
 
-      <div className="rounded-lg bg-[#2c2c2e] p-4 grid grid-cols-2 gap-3">
-        {STAGE_SUMMARY_META.map(({ type, label, color }) => {
-          const minutes = totals[type];
-          const percent = Math.round((minutes / grandTotal) * 100);
-          return (
-            <div key={type} className="flex flex-col gap-1">
-              <div className="flex items-center gap-1.5">
-                <span className="w-2.5 h-2.5 rounded-[2px]" style={{ backgroundColor: color }} />
-                <span className="font-body text-xs text-[rgba(255,255,255,0.6)]">{label}</span>
+      <div className="flex flex-col gap-1">
+        <div className="flex items-center gap-1">
+          <Clock size={16} className="text-[#dcddeb]" />
+          <span className="font-body text-[11px] text-white">수면 단계별 시간</span>
+        </div>
+        <div className="rounded-lg bg-[#2c2c2e] p-4 grid grid-cols-2 gap-3">
+          {STAGE_SUMMARY_META.map(({ type, label, color }) => {
+            const minutes = totals[type];
+            const percent = Math.round((minutes / grandTotal) * 100);
+            return (
+              <div key={type} className="flex flex-col gap-1">
+                <div className="flex items-center gap-1.5">
+                  <span className="w-2.5 h-2.5 rounded-[2px]" style={{ backgroundColor: color }} />
+                  <span className="font-body text-xs text-[rgba(255,255,255,0.6)]">{label}</span>
+                </div>
+                <span className="font-body text-sm font-bold" style={{ color }}>
+                  {percent}%
+                </span>
+                <span className="font-body text-xs text-[rgba(255,255,255,0.6)]">
+                  {formatMinutes(minutes)}
+                </span>
               </div>
-              <span className="font-body text-sm font-bold" style={{ color }}>
-                {percent}%
-              </span>
-              <span className="font-body text-xs text-[rgba(255,255,255,0.6)]">
-                {formatMinutes(minutes)}
-              </span>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
+
+      <AnomalySection />
     </div>
   );
 }

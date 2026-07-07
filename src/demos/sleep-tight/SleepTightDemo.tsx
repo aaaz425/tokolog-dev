@@ -8,8 +8,10 @@ import { BottomNav, type SleepTightTab } from './BottomNav';
 import { CoachScreen } from './CoachScreen';
 import { HomeScreen } from './HomeScreen';
 import { DEFAULT_ALARM } from './mockData';
+import { MyPageScreen } from './MyPageScreen';
 import { RingingScreen } from './RingingScreen';
 import { SleepingScreen } from './SleepingScreen';
+import { SoundScreen } from './SoundScreen';
 import type { TimeWheelValue } from './TimeWheelPicker';
 import { WakeUpScreen } from './WakeUpScreen';
 
@@ -68,6 +70,8 @@ export function SleepTightDemo() {
           )}
           {tab === 'analysis' && <AnalysisScreen />}
           {tab === 'coach' && <CoachScreen />}
+          {tab === 'sound' && <SoundScreen />}
+          {tab === 'mypage' && <MyPageScreen />}
         </div>
         {showBottomNav && <BottomNav active={tab} onChange={setTab} />}
 

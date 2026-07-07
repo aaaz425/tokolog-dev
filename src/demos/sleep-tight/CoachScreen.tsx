@@ -15,7 +15,7 @@ export function CoachScreen() {
       onMouseMove={dragScroll.onMouseMove}
       onMouseUp={dragScroll.onMouseUp}
       onMouseLeave={dragScroll.onMouseLeave}
-      className={`flex flex-col h-full bg-[#1c1c1e] overflow-y-auto cursor-grab active:cursor-grabbing ${CUSTOM_SCROLLBAR_CLASS}`}
+      className={`flex flex-col h-full bg-[#1c1c1e] overflow-y-auto select-none cursor-grab active:cursor-grabbing ${CUSTOM_SCROLLBAR_CLASS}`}
       style={CUSTOM_SCROLLBAR_STYLE}
     >
       <div className="h-16 flex items-center justify-center flex-shrink-0">

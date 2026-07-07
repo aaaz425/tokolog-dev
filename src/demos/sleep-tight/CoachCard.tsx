@@ -1,6 +1,3 @@
-'use client';
-
-import { toast } from 'sonner';
 import type { CoachCardData } from './mockData';
 
 interface CoachCardProps {
@@ -10,10 +7,7 @@ interface CoachCardProps {
 
 export function CoachCard({ data, priority }: CoachCardProps) {
   return (
-    <button
-      onClick={() => toast('AI 코치와의 대화는 이 데모에서 제공하지 않아요.')}
-      className="w-full text-left cursor-pointer"
-    >
+    <div className="w-full text-left">
       <div className="relative w-full h-[200px] rounded-lg overflow-hidden mb-2">
         <img
           src={data.image}
@@ -45,6 +39,6 @@ export function CoachCard({ data, priority }: CoachCardProps) {
         {data.unit} / {data.target.toLocaleString()}
         {data.unit}
       </p>
-    </button>
+    </div>
   );
 }
