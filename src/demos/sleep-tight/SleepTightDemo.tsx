@@ -101,7 +101,7 @@ export function SleepTightDemo() {
         )}
         {sleepFlow.kind === 'wokeUp' && (
           <WakeUpScreen
-            onWriteDiary={() => toast('수면 일지 작성은 다음 업데이트에서 제공돼요.')}
+            onWriteDiary={() => toast('수면 일지 작성은 이 데모에서 제공되지 않아요')}
             onClose={() => {
               setSleepFlow({ kind: 'idle' });
               setTab('home');
