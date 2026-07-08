@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { MessageCircle, User } from 'lucide-react';
 import { toast } from 'sonner';
 import {
-  BackBar,
   CompleteButton,
   FlowScreen,
   GrayActionButton,
@@ -167,7 +166,7 @@ export function MyPageInfoFlow({ profile, onUpdateProfile, onClose }: MyPageInfo
   return (
     <div className="flex h-full flex-col items-center justify-center bg-[#1c1c1e] px-8">
       <div className="flex flex-1 flex-col items-center justify-center gap-5 text-center">
-        <span className="text-6xl">🌙</span>
+        <img src="/demos/sleep-tight/sleep_moon.png" alt="" className="h-[180px] w-[180px]" />
         <p className="font-body text-sm leading-relaxed text-white">
           당신의 밤이 편안하길 바래요
           <br />
@@ -180,8 +179,20 @@ export function MyPageInfoFlow({ profile, onUpdateProfile, onClose }: MyPageInfo
         </p>
       </div>
       <div className="flex w-full flex-col gap-1 pb-6">
-        <SolidButton onClick={notAvailable} label="다시 회원가입하기" />
-        <TextLinkButton onClick={notAvailable} label="앱 종료하기" />
+        <SolidButton
+          onClick={() => {
+            notAvailable();
+            onClose();
+          }}
+          label="다시 회원가입하기"
+        />
+        <TextLinkButton
+          onClick={() => {
+            notAvailable();
+            onClose();
+          }}
+          label="앱 종료하기"
+        />
       </div>
     </div>
   );
