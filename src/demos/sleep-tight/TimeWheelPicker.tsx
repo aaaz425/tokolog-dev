@@ -20,24 +20,12 @@ interface TimeWheelPickerProps {
 
 const OPTION_HEIGHT = 52;
 
-// @ncdai/react-wheel-picker는 각 컬럼을 실제 3D 원통으로 렌더링한다(perspective:2000px 고정).
-// 컬럼 자체의 실제 높이(Ce)는 optionItemHeight/visibleCount로부터 라이브러리 내부에서
-// 계산되며(this.height = round(U*2 + optionItemHeight*0.25)), 우리가 지정한 컨테이너
-// 높이(OPTION_HEIGHT*5)와 다르다. 가운데 강조 박스/콜론을 정확히 그 중심에 맞추려면
-// 같은 공식으로 중심 좌표를 직접 계산해야 한다(퍼센트로 눈대중하면 어긋난다).
 const VISIBLE_COUNT = 20; // 라이브러리 기본값(우리는 별도로 지정하지 않음)
 const WHEEL_ANGLE_DEG = 360 / VISIBLE_COUNT;
 const CENTER_DEPTH = OPTION_HEIGHT / Math.tan((WHEEL_ANGLE_DEG * Math.PI) / 180);
 const COLUMN_HEIGHT = Math.round(CENTER_DEPTH * 2 + OPTION_HEIGHT * 0.25);
 const HIGHLIGHT_CENTER_PX = COLUMN_HEIGHT / 2;
 
-// 가운데(선택된) 항목은 optionItem 레이어에서 translateZ(CENTER_DEPTH)로 뷰어 쪽으로
-// 밀려나 있어, perspective 투영 때문에 실제 선언한 font-size보다 다음 배율만큼
-// 화면에 더 크게 보인다. highlightItem(강조 오버레이)에는 이 변형이 없으므로,
-// 두 레이어가 같은 값을 보여줄 때 optionItem 쪽을 그 배율만큼 미리 작게 선언해야
-// 픽셀이 정확히 겹쳐서 가장자리에 흐릿한 잔상(고스팅)이 생기지 않는다.
-// MAGNIFICATION ≈ 1.087 (OPTION_HEIGHT=52 기준) — highlightItem 24px면 optionItem은
-// 24/1.087≈22px, highlightItem 20px면 optionItem은 20/1.087≈18px.
 const UNSELECTED_CLASS = 'text-[rgba(135,168,255,0.6)]';
 const SELECTED_CLASS = 'text-white';
 const DIGIT_FONT_CLASS = `font-bold ${sevenSegment.className}`;
@@ -65,21 +53,9 @@ export function TimeWheelPicker({ value, onChange }: TimeWheelPickerProps) {
     <div
       className="relative -mx-5"
       style={{
-        height: OPTION_HEIGHT * 5,
         background: `linear-gradient(180deg, ${SLEEP_TIGHT_COLORS.gray01}, #000000, ${SLEEP_TIGHT_COLORS.gray01})`,
       }}
     >
-      <div
-        className="absolute pointer-events-none rounded-lg z-10"
-        style={{
-          width: 236,
-          height: OPTION_HEIGHT,
-          top: HIGHLIGHT_CENTER_PX,
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          background: 'rgba(58,110,255,0.16)',
-        }}
-      />
       <WheelPickerWrapper className="w-[236px]! mx-auto h-full">
         <WheelPicker
           options={PERIOD_OPTIONS}
@@ -89,6 +65,7 @@ export function TimeWheelPicker({ value, onChange }: TimeWheelPickerProps) {
           classNames={{
             optionItem: `font-bold ${PERIOD_UNSELECTED_SIZE} ${UNSELECTED_CLASS}`,
             highlightItem: `font-bold ${PERIOD_SELECTED_SIZE} ${SELECTED_CLASS}`,
+            highlightWrapper: 'bg-[#091229] rounded-l-lg',
           }}
         />
         <WheelPicker
@@ -100,21 +77,31 @@ export function TimeWheelPicker({ value, onChange }: TimeWheelPickerProps) {
           classNames={{
             optionItem: `${DIGIT_FONT_CLASS} ${UNSELECTED_CLASS} ${DIGIT_UNSELECTED_SIZE}`,
             highlightItem: `${DIGIT_FONT_CLASS} ${SELECTED_CLASS} ${DIGIT_SELECTED_SIZE}`,
+            highlightWrapper: 'bg-[#091229]',
           }}
         />
-        <div className="relative h-full px-1 z-20">
+
+        <div className="relative flex items-center justify-center" style={{ width: 20 }}>
+          <div
+            className="absolute inset-y-0 left-0 right-0 bg-[#091229] z-10"
+            style={{
+              top: HIGHLIGHT_CENTER_PX - OPTION_HEIGHT / 2,
+              height: OPTION_HEIGHT,
+            }}
+          />
           <span
-            className={`absolute text-white ${sevenSegment.className}`}
+            className={`absolute z-20 text-white ${sevenSegment.className}`}
             style={{
               fontSize: 36,
               top: HIGHLIGHT_CENTER_PX,
               left: '50%',
-              transform: 'translate(-50%, -50%)',
+              transform: 'translate(-50%, -60%)',
             }}
           >
             :
           </span>
         </div>
+
         <WheelPicker
           options={MINUTE_OPTIONS}
           value={value.minute}
@@ -124,6 +111,7 @@ export function TimeWheelPicker({ value, onChange }: TimeWheelPickerProps) {
           classNames={{
             optionItem: `${DIGIT_FONT_CLASS} ${UNSELECTED_CLASS} ${DIGIT_UNSELECTED_SIZE}`,
             highlightItem: `${DIGIT_FONT_CLASS} ${SELECTED_CLASS} ${DIGIT_SELECTED_SIZE}`,
+            highlightWrapper: 'bg-[#091229] rounded-r-lg',
           }}
         />
       </WheelPickerWrapper>
